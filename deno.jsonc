@@ -1,0 +1,11 @@
+{
+	"fmt": {
+		"semiColons": false,
+		"lineWidth": 100,
+		"useTabs": true,
+		"indentWidth": 4
+	},
+	"compilerOptions": {
+		"exactOptionalPropertyTypes": true
+	}
+}
