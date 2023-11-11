@@ -4,9 +4,9 @@ export type Lang = typeof lang.infer
 const lang = type("'ko' | 'en'")
 
 export type Article = typeof article.infer
-export type Post = typeof post.infer
+export type Post = typeof postFile.infer
 export type ArticleFile = typeof articleFile.infer
-export const { article, post, articleFile } = scope({
+export const { article, post, postFile, articleFile } = scope({
 	article: {
 		title: "string",
 		summary: "string",
@@ -20,7 +20,7 @@ export const { article, post, articleFile } = scope({
 		date: "Date",
 		path: "string",
 	},
-	// postFile: "post & meta",
+	postFile: "post & meta",
 	articleFile: "article & meta",
 }).compile()
 
@@ -28,8 +28,7 @@ export type PostFile = Post & { date: Date; path: string }
 
 export const defPost = <const T extends Post>(post: T & Post): Post => post
 
-type To = (locale: Lang) => (post: Post) => [PostOfLocale] | []
-export const toPostOfLocale: ToPostOfLocale = (locale) => (post) => {
+export const toPostOfLocale = (locale: Lang) => (post: Post) => {
 	const article = post[locale]
 
 	return article ? [{ ...post, ...article }] : []

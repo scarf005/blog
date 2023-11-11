@@ -23,12 +23,6 @@ type Defaultize<Props, Defaults> =
 
 type Booleanish = boolean | "true" | "false"
 
-declare global {
-	namespace JSX {
-		interface IntrinsicElements extends JSXInternal.IntrinsicElements {}
-	}
-}
-
 export namespace JSXInternal {
 	export type LibraryManagedAttributes<Component, Props> = Component extends {
 		defaultProps: infer Defaults

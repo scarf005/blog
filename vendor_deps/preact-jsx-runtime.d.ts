@@ -1,5 +1,5 @@
 // deno-lint-ignore-file
-export { Fragment } from "preact"
+export { Fragment } from "./preact.d.ts"
 import { Attributes, ComponentChild, ComponentChildren, ComponentType, VNode } from "./preact.d.ts"
 import { JSXInternal } from "./jsx.d.ts"
 
