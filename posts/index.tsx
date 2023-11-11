@@ -52,13 +52,13 @@ export const posts = await asynciter(
 	.then((posts) => posts.flat().sort((a, b) => b.date.getTime() - a.date.getTime()))
 
 export default () => (
-	<article>
+	<main>
 		<header>
 			<Nav />
 		</header>
 		<hr />
-		<main>
+		<article>
 			<ul>{previews(posts)}</ul>
-		</main>
-	</article>
+		</article>
+	</main>
 )

@@ -14,6 +14,7 @@ export const Date = ({ date, modifiedDate }: DateOption) => {
 		</span>
 	)
 }
+
 type Props = {
 	path: string
 	title: string
@@ -23,16 +24,18 @@ type Props = {
 }
 export const Layout = ({ path, title, date, modifiedDate, children }: Props) => {
 	return (
-		<article>
-			<Nav href={path} />
-			<hr />
+		<main>
 			<header>
+				<Nav href={path} />
+			</header>
+			<hr />
+			<article>
 				<h2>{title}</h2>
 				<Date date={date} modifiedDate={modifiedDate} />
-			</header>
-			<main>
-				{children}
-			</main>
-		</article>
+				<section>
+					{children}
+				</section>
+			</article>
+		</main>
 	)
 }

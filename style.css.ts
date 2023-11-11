@@ -40,39 +40,42 @@ export const style = /*css*/ `
         text-decoration-thickness: 0.075em;
         text-decoration-line: underline;
     }
+
     /* selection before */
-    h1:hover > a {
+    a:hover,
+    nav h1:hover a {
         color: var(--bg-color);
         background-color: var(--link-color);
     }
     /* selection after */
-    a:hover ~ a  {
+    nav a:hover ~ a  {
         color: var(--link-color);
         background-color: var(--bg-color);
     }
     a:visited {
         color: var(--link-visited-color);
     }
-    h1:hover > a:visited {
+    a:visited:hover,
+    nav h1:hover > a:visited {
         color: var(--bg-color);
         background-color: var(--link-visited-color);
     }
-    a:hover ~ a:visited  {
+    nav a:hover ~ a:visited  {
         color: var(--link-visited-color);
         background-color: var(--bg-color);
     }
 
-    article {
+    main {
         min-width: 75vw;
         max-width: 100dvh;
         margin: auto;
     }
-    main > ul {
+    article > ul {
         display: flex;
         flex-direction: column;
     }
     @media (max-width: 800px) {
-        main > ul > li > span {
+        article > ul > li > span {
             display: none;
         }
     }
