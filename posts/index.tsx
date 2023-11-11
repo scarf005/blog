@@ -1,7 +1,7 @@
 import { walk } from "https://deno.land/std@0.206.0/fs/walk.ts"
 import { asynciter } from "https://deno.land/x/asynciter@0.0.18/asynciter.ts"
-import { toDate } from "../main.tsx"
 import { assert } from "https://deno.land/std@0.206.0/assert/assert.ts"
+import { toDate } from "../Layout.tsx"
 
 export const getDate = async (path: string) =>
 	(await Deno.lstat(path)).birthtime ?? new Date("1970-01-01")
@@ -15,7 +15,7 @@ const Preview = ({ href, date, title }: { href: string; date: Date; title: strin
 	</li>
 )
 
-const previews = (posts: Post[]) =>
+export const previews = (posts: Post[]) =>
 	posts
 		.map(({ path, date, title }) => (
 			<Preview
@@ -35,7 +35,7 @@ const loadPost = async (path: string) => {
 	return { date, path, title: mod.title }
 }
 
-const posts = await asynciter(
+export const posts = await asynciter(
 	walk("posts/", { includeDirs: false, exts: [".tsx"], skip: [/index.tsx/] }),
 )
 	.concurrentUnorderedMap(async ({ path }) => {
@@ -52,7 +52,9 @@ const posts = await asynciter(
 export default () => (
 	<article>
 		<header>
-			<h1>/home/scarf/</h1>
+			<h1>
+				<a href="https://github.com/scarf005">/home/scarf/</a>
+			</h1>
 		</header>
 		<hr />
 		<main>

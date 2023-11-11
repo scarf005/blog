@@ -1,11 +1,13 @@
 import { webSocketScript } from "./attach_ws.ts"
 import { renderToString } from "$preact/render_to_string"
 import { style } from "./style.css.ts"
+import { Layout } from "./Layout.tsx"
 
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
 
 type Option = {
 	clients: Set<WebSocket>
+	hostname: string
 }
 
 const handleWebsocketPool = (clients: Set<WebSocket>) => (req: Request): Promise<Response> => {
@@ -21,9 +23,22 @@ const handleWebsocketPool = (clients: Set<WebSocket>) => (req: Request): Promise
 
 const serveTsx = async (path: string, host: string, secure: boolean) => {
 	console.log(`req: ${path}`)
-	const { default: jsx } = await import(`./posts${path.replace("html", "tsx")}`)
-
-	const markup = renderToString(jsx())
+	const filePath = `./posts${path.replace("html", "tsx")}`
+	const mod = await import(filePath)
+	const isIndex = path.endsWith("index.html")
+	const Component = mod.default() as JSX.Element
+	const stat = await Deno.lstat(filePath)
+	const markup = renderToString(
+		isIndex ? Component : (
+			<Layout
+				date={mod.date ?? stat.birthtime}
+				modifiedDate={mod.modifiedDate ?? stat.mtime}
+				title={mod.title}
+			>
+				{Component}
+			</Layout>
+		),
+	)
 	const html = /*html*/ `
         <!DOCTYPE html>
         <html>
@@ -43,7 +58,7 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
 	return new Response(html, { headers: { "content-type": "text/html" } })
 }
 
-export const handler = ({ clients }: Option) => (req: Request) => {
+export const handler = ({ clients, hostname }: Option) => (req: Request) => {
 	const { protocol } = new URL(req.url)
 	const secure = protocol === "https:"
 
@@ -51,6 +66,16 @@ export const handler = ({ clients }: Option) => (req: Request) => {
 
 	if (isWebSocket(req)) {
 		return handleWebsocketPool(clients)(req)
+	}
+	const url = new URL(req.url)
+    console.log(url, url.hostname, hostname)
+	if (url.hostname !== hostname) {
+		return new Response(null, {
+			status: 301,
+			headers: {
+				location: req.url,
+			},
+		})
 	}
 
 	const path = new URL(req.url, `http://${req.headers.get("host")}`).pathname
@@ -62,6 +87,12 @@ export const handler = ({ clients }: Option) => (req: Request) => {
 	if (isPrettyUrl) {
 		return serveTsx(resolvedUrl, wsHost, secure)
 	}
+	// return new Response(null, {
+	// 	status: 301,
+	// 	headers: {
+	// 		location: req.url,
+	// 	},
+	// })
 	return new Response("not found", { status: 404 })
 }
 
@@ -69,7 +100,8 @@ const clients = new Set<WebSocket>()
 
 type HMR = { detail: { path: string } }
 
-Deno.serve({ port: 3000 }, handler({ clients }))
+const hostname = "localhost"
+Deno.serve({ port: 3000, hostname }, handler({ clients, hostname }))
 addEventListener("hmr", (e) => {
 	console.log("HMR triggered", (e as unknown as HMR).detail.path)
 	clients.forEach((client) => client.send("reload"))

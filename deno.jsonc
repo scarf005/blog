@@ -1,6 +1,6 @@
 {
 	"tasks": {
-		"serve": "deno run --unstable-hmr=posts -A server.ts"
+		"serve": "deno run --unstable-hmr=posts -A server.tsx"
 	},
 	"fmt": {
 		"semiColons": false,

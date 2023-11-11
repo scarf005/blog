@@ -26,10 +26,6 @@ export const webSocketScript = ({ secure = false, host }: Option) => {
             socket.onopen = () => console.log("Socket listening at ${url}")
             socket.onmessage = onmessage
             socket.onerror = (e) => console.error("websocket error", JSON.stringify(e))
-            socket.onclose = (v) => {
-                console.log("close", v)
-                setTimeout(() => location.reload(), 500)
-            }
 
             function ping() {
                 console.log("sending ping")
