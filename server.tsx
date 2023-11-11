@@ -1,8 +1,10 @@
 import { webSocketScript } from "./attach_ws.ts"
 import { renderToString } from "$preact/render_to_string"
 import { style } from "./style.css.ts"
-import { Layout } from "./components/layout.tsx"
+import { PostLayout } from "./components/post_layout.tsx"
 import { sarasa } from "./sarasa.css.ts"
+import { Layout } from "./components/layout.tsx"
+import { Nav } from "./components/nav.tsx"
 
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
 
@@ -27,19 +29,25 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
 	const filePath = `./posts${path.replace("html", "tsx")}`
 	const mod = await import(filePath)
 	const isIndex = path.endsWith("index.html")
-	const Component = mod.default() as JSX.Element
+	const Component = mod.default as () => JSX.Element
 	const stat = await Deno.lstat(filePath)
 	const markup = renderToString(
-		isIndex ? Component : (
-			<Layout
-				path={path}
-				date={mod.date ?? stat.birthtime}
-				modifiedDate={mod.modifiedDate ?? stat.mtime}
-				title={mod.title}
-			>
-				{Component}
-			</Layout>
-		),
+		isIndex
+			? (
+				<Layout header={<Nav />}>
+					<Component />
+				</Layout>
+			)
+			: (
+				<PostLayout
+					path={path}
+					date={mod.date ?? stat.birthtime}
+					modifiedDate={mod.modifiedDate ?? stat.mtime}
+					title={mod.title}
+				>
+					<Component />
+				</PostLayout>
+			),
 	)
 	const html = /*html*/ `
         <!DOCTYPE html>
@@ -49,13 +57,13 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
 		        <meta lang="ko" />
+                <style>${sarasa}</style>
+                <style>${style}</style>
                 ${webSocketScript({ host, secure })}
                 <script type="module">
                     import flamethrower from "https://esm.sh/flamethrower-router"
                     flamethrower({ log: true, pageTransitions: true })
                 </script>
-                <style>${sarasa}</style>
-                <style>${style}</style>
             </head>
             <body>
                 ${markup}

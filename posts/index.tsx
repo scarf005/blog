@@ -1,7 +1,7 @@
 import { walk } from "https://deno.land/std@0.206.0/fs/walk.ts"
 import { asynciter } from "https://deno.land/x/asynciter@0.0.18/asynciter.ts"
 import { assert } from "https://deno.land/std@0.206.0/assert/assert.ts"
-import { toDate } from "../components/layout.tsx"
+import { toDate } from "../components/date.tsx"
 import { Nav } from "../components/nav.tsx"
 
 export const getDate = async (path: string) =>
@@ -51,14 +51,4 @@ export const posts = await asynciter(
 	.collect()
 	.then((posts) => posts.flat().sort((a, b) => b.date.getTime() - a.date.getTime()))
 
-export default () => (
-	<main>
-		<header>
-			<Nav />
-		</header>
-		<hr />
-		<article>
-			<ul>{previews(posts)}</ul>
-		</article>
-	</main>
-)
+export default () => <ul>{previews(posts)}</ul>
