@@ -1,7 +1,8 @@
 import { webSocketScript } from "./attach_ws.ts"
 import { renderToString } from "$preact/render_to_string"
 import { style } from "./style.css.ts"
-import { Layout } from "./Layout.tsx"
+import { Layout } from "./components/layout.tsx"
+import { sarasa } from "./sarasa.css.ts"
 
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
 
@@ -53,6 +54,7 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
                     import flamethrower from "https://esm.sh/flamethrower-router"
                     flamethrower({ log: true, pageTransitions: true })
                 </script>
+                <style>${sarasa}</style>
                 <style>${style}</style>
             </head>
             <body>

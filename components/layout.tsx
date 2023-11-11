@@ -1,4 +1,4 @@
-import { posts, previews } from "./posts/index.tsx"
+import { Nav } from "./nav.tsx"
 export const toDate = (date: Date) => date.toISOString().split("T")[0]
 
 type DateOption = {
@@ -14,7 +14,6 @@ export const Date = ({ date, modifiedDate }: DateOption) => {
 		</span>
 	)
 }
-
 type Props = {
 	path: string
 	title: string
@@ -25,11 +24,7 @@ type Props = {
 export const Layout = ({ path, title, date, modifiedDate, children }: Props) => {
 	return (
 		<article>
-			<h1>
-				<a href="https://github.com/scarf005">/home</a>
-				<a href="/">/scarf</a>
-				{path}
-			</h1>
+			<Nav href={path} />
 			<hr />
 			<header>
 				<h2>{title}</h2>

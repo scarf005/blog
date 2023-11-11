@@ -1,7 +1,8 @@
 import { walk } from "https://deno.land/std@0.206.0/fs/walk.ts"
 import { asynciter } from "https://deno.land/x/asynciter@0.0.18/asynciter.ts"
 import { assert } from "https://deno.land/std@0.206.0/assert/assert.ts"
-import { toDate } from "../Layout.tsx"
+import { toDate } from "../components/layout.tsx"
+import { Nav } from "../components/nav.tsx"
 
 export const getDate = async (path: string) =>
 	(await Deno.lstat(path)).birthtime ?? new Date("1970-01-01")
@@ -53,9 +54,7 @@ export const posts = await asynciter(
 export default () => (
 	<article>
 		<header>
-			<h1>
-				<a href="https://github.com/scarf005">/home/scarf/</a>
-			</h1>
+			<Nav />
 		</header>
 		<hr />
 		<main>
