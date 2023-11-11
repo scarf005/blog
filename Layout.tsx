@@ -16,24 +16,25 @@ export const Date = ({ date, modifiedDate }: DateOption) => {
 }
 
 type Props = {
+	path: string
 	title: string
 	date: Date
 	modifiedDate: Date
 	children: JSX.Element
 }
-export const Layout = ({
-	title,
-	date,
-	modifiedDate,
-	children,
-}: Props) => {
+export const Layout = ({ path, title, date, modifiedDate, children }: Props) => {
 	return (
 		<article>
+			<h1>
+				<a href="https://github.com/scarf005">/home</a>
+				<a href="/">/scarf</a>
+				{path}
+			</h1>
+			<hr />
 			<header>
-				<h1>{title}</h1>
+				<h2>{title}</h2>
 				<Date date={date} modifiedDate={modifiedDate} />
 			</header>
-			<hr />
 			<main>
 				{children}
 			</main>

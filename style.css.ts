@@ -3,20 +3,25 @@ import { sarasa } from "./sarasa.css.ts"
 export const style = /*css*/ `
     ${sarasa}
 
+    :root {
+        --light: #ffffff;
+        --dark: #1c1b1bf4;
+    }
+
     @media (prefers-color-scheme: light) {
         :root {
-            --text-color: #000000;
-            --bg-color: #ffffff;
-            --link-color: #6588a6;
-            --link-visited-color: #605c6b;
+            --text-color: var(--dark);
+            --bg-color: var(--light);
+            --link-color: #0a85ba;
+            --link-visited-color: #39383c;
         }
     }
     @media (prefers-color-scheme: dark) {
         :root {
-            --text-color: #ffffff;
-            --bg-color: #000000;
-            --link-color: #a8d6ff;
-            --link-visited-color: #d6c8fe;
+            --text-color: var(--light);
+            --bg-color: var(--dark);
+            --link-color: #7bffa9;
+            --link-visited-color: #f8e1c2;
         }
     }
 
@@ -51,7 +56,7 @@ export const style = /*css*/ `
         background-color: var(--link-visited-color);
     }
     article {
-        min-width: 50vw;
+        min-width: 75vw;
         max-width: 100dvh;
         margin: auto;
     }

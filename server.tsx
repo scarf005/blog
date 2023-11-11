@@ -31,6 +31,7 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
 	const markup = renderToString(
 		isIndex ? Component : (
 			<Layout
+				path={path}
 				date={mod.date ?? stat.birthtime}
 				modifiedDate={mod.modifiedDate ?? stat.mtime}
 				title={mod.title}
@@ -47,11 +48,15 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
 		        <meta lang="ko" />
+                ${webSocketScript({ host, secure })}
+                <script type="module">
+                    import flamethrower from "https://esm.sh/flamethrower-router"
+                    flamethrower({ log: true, pageTransitions: true })
+                </script>
                 <style>${style}</style>
             </head>
             <body>
                 ${markup}
-                ${webSocketScript({ host, secure })}
             </body>
         </html>
     `
@@ -68,7 +73,6 @@ export const handler = ({ clients, hostname }: Option) => (req: Request) => {
 		return handleWebsocketPool(clients)(req)
 	}
 	const url = new URL(req.url)
-    console.log(url, url.hostname, hostname)
 	if (url.hostname !== hostname) {
 		return new Response(null, {
 			status: 301,
@@ -104,5 +108,8 @@ const hostname = "localhost"
 Deno.serve({ port: 3000, hostname }, handler({ clients, hostname }))
 addEventListener("hmr", (e) => {
 	console.log("HMR triggered", (e as unknown as HMR).detail.path)
-	clients.forEach((client) => client.send("reload"))
+	clients.forEach((client) => {
+		client.send("reload")
+		console.log(`sent reload to ${client.url}`)
+	})
 })
