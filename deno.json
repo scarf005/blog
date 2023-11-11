@@ -1,0 +1,21 @@
+{
+	"tasks": {
+		"lume": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A -",
+		"build": "deno task lume",
+		"serve": "deno task lume -s"
+	},
+	"fmt": {
+		"semiColons": false,
+		"lineWidth": 100,
+		"useTabs": true,
+		"indentWidth": 4,
+		"proseWrap": "never",
+		"singleQuote": false
+	},
+	"importMap": "import_map.json",
+	"compilerOptions": {
+		"types": ["lume/types.ts"],
+		"jsx": "react-jsx",
+		"jsxImportSource": "preact"
+	}
+}
