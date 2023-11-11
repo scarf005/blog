@@ -9,7 +9,6 @@ export type ArticleFile = typeof articleFile.infer
 export const { article, post, postFile, articleFile } = scope({
 	article: {
 		title: "string",
-		summary: "string",
 		post: "string",
 	},
 	post: {
