@@ -1,8 +1,4 @@
-import { sarasa } from "./sarasa.css.ts"
-
 export const style = /*css*/ `
-    ${sarasa}
-
     :root {
         --light: #ffffff;
         --dark: #1c1b1bf4;
@@ -44,17 +40,28 @@ export const style = /*css*/ `
         text-decoration-thickness: 0.075em;
         text-decoration-line: underline;
     }
-    a:hover {
+    /* selection before */
+    h1:hover > a {
         color: var(--bg-color);
         background-color: var(--link-color);
+    }
+    /* selection after */
+    a:hover ~ a  {
+        color: var(--link-color);
+        background-color: var(--bg-color);
     }
     a:visited {
         color: var(--link-visited-color);
     }
-    a:hover:visited {
+    h1:hover > a:visited {
         color: var(--bg-color);
         background-color: var(--link-visited-color);
     }
+    a:hover ~ a:visited  {
+        color: var(--link-visited-color);
+        background-color: var(--bg-color);
+    }
+
     article {
         min-width: 75vw;
         max-width: 100dvh;
