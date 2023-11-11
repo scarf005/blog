@@ -1,0 +1,25 @@
+a[href^="https://"],
+a[href^="mailto:"] {
+    padding-left: 1.15em;
+    background: var(--icon) no-repeat 0 0.33em / 1em;
+}
+
+a[href^="https://"] {
+    --icon: url("/assets/icons/github-link.svg");
+}
+
+a[href^="mailto:"] {
+    --icon: url("/assets/icons/github-mail.svg");
+}
+
+a[href^="https://github.com"] {
+    --icon: url("/assets/icons/github-logo.svg");
+
+    &[href*="/pull/"] {
+        --icon: url("/assets/icons/github-pr.svg");
+    }
+
+    &[href*="/issues/"] {
+        --icon: url("/assets/icons/github-issue.svg");
+    }
+}

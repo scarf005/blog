@@ -1,0 +1,216 @@
+:root {
+    --light: #ffffff;
+    --dark: #1c1b1bf4;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --text-color: var(--dark);
+        --bg-color: var(--light);
+        --link-color: #0a85ba;
+        --link-visited-color: #39383c;
+        --code-color: #ee795f;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: var(--light);
+        --bg-color: var(--dark);
+        --link-color: #7bffa9;
+        --link-visited-color: #f8e1c2;
+        --code-color: #f6cfc5;
+    }
+}
+
+html {
+    /* font-family: "Sarasa Term K, IBM 3270"; */
+    /* font-variant-ligatures: discretionary-ligatures; */
+    font-size: 1.5em;
+    word-break: keep-all;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 100%;
+    height: 100dvh;
+
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+body {
+    width: min(max(min(100vw, 400px), 75vw), 1400px);
+    box-sizing: border-box;
+    height: 100%;
+    margin: auto;
+    padding: 0 10vw;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    margin-bottom: auto;
+}
+
+footer {
+    margin: 0 auto;
+    /* white-space: nowrap; */
+    /* overflow: hidden; */
+    font-size: min(max(0.5em, 2.6vw), 1em);
+}
+
+hr {
+    margin: 0;
+    align-self: stretch;
+}
+
+section {
+    break-after: avoid;
+    break-before: avoid;
+    break-inside: avoid;
+}
+
+img,
+video {
+    max-inline-size: 100%;
+    max-block-size: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    background: var(--bg-color);
+    display: block;
+    margin: 1.5em auto;
+}
+
+ul {
+    padding: 0;
+    list-style-position: inside;
+    display: flex;
+    flex-direction: column;
+}
+
+/* https://searchfox.org/mozilla-central/source/layout/style/res/html.css#172-173 */
+nav {
+    font-weight: bold;
+    font-size: 1.5em;
+    padding: 0;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+}
+
+h1 {
+    margin-block-end: 0.25em;
+}
+
+code {
+    font-family: inherit;
+    color: var(--code-color);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration-thickness: 0.075em;
+    text-decoration-line: underline;
+}
+
+/*
+ * style hovered anchors
+ */
+a:hover:not(:has(img)) {
+    color: var(--bg-color);
+    background-color: var(--link-color);
+}
+
+a:visited:not(:has(img)) {
+    color: var(--link-visited-color);
+}
+
+a:visited:hover {
+    color: var(--bg-color);
+    background-color: var(--link-visited-color);
+}
+
+/*
+ * Progress-bar style selection
+ */
+
+/* 1. SELECT all links */
+nav:has(a:hover) a {
+    color: var(--bg-color);
+    background-color: var(--link-color);
+}
+
+nav:has(a:hover) a:visited {
+    background-color: var(--link-visited-color);
+}
+
+/* 2. UNSELECT links that are after hovered one */
+nav a:hover~a {
+    color: var(--link-color);
+    background-color: var(--bg-color);
+}
+
+nav a:hover~a:visited {
+    color: var(--link-visited-color);
+    background-color: var(--bg-color);
+}
+
+/*
+ * anchor with code
+ */
+a:hover code {
+    color: var(--bg-color);
+    background-color: var(--code-color);
+}
+
+a:has(code) {
+    text-decoration-color: var(--code-color);
+}
+
+a:hover:has(code) {
+    text-decoration-color: var(--bg-color);
+}
+
+a:hover code {
+    color: var(--bg-color);
+    background-color: var(--code-color);
+}
+
+a:has(code) {
+    text-decoration-color: var(--code-color);
+}
+
+a:hover:has(code) {
+    text-decoration-color: var(--bg-color);
+}
+
+@media (width < 600px) {
+    body {
+        word-break: break-all;
+        padding: 0 4vw;
+    }
+}
+
+@media (width < 800px) {
+    ul li span {
+        display: none;
+    }
+}
+
+@media print {
+
+    nav,
+    nav~hr,
+    footer,
+    video {
+        display: none;
+    }
+
+    html {
+        font-size: 1em;
+    }
+
+    img {
+        max-width: 50%;
+    }
+}
