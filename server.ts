@@ -1,6 +1,7 @@
 import { webSocketScript } from "./attach_ws.ts"
-import { serveDir } from "https://deno.land/std@0.206.0/http/file_server.ts"
-import { renderToStaticMarkup } from "$preact/render_to_string"
+import { renderToString } from "$preact/render_to_string"
+import { style } from "./style.css.ts"
+
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
 
 type Option = {
@@ -11,31 +12,35 @@ const handleWebsocketPool = (clients: Set<WebSocket>) => (req: Request): Promise
 	const { socket, response } = Deno.upgradeWebSocket(req)
 	socket.addEventListener("open", () => {
 		clients.add(socket)
-		console.log(`added websocket client, total clients: ${clients.size}`)
 	})
 	socket.addEventListener("close", () => {
 		clients.delete(socket)
-		console.log(`removed websocket client, total clients: ${clients.size}`)
 	})
 	return Promise.resolve(response)
 }
 
-const serveHtml = async (path: string, host: string, secure: boolean) => {
+const serveTsx = async (path: string, host: string, secure: boolean) => {
 	console.log(`req: ${path}`)
 	const { default: jsx } = await import(`./posts${path.replace("html", "tsx")}`)
 
-	const markup = renderToStaticMarkup(jsx())
-	console.log({ type: typeof jsx, markup })
-	const wsInject = `<script>${webSocketScript({ host, secure })}</script>`
-	const modifiedFile = markup.replace(
-		"</body>",
-		`${wsInject}</body>`,
-	)
-	return new Response(modifiedFile, {
-		headers: {
-			"content-type": "text/html",
-		},
-	})
+	const markup = renderToString(jsx())
+	const html = /*html*/ `
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>/home/scarf${path}</title>
+                <meta charset="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+		        <meta lang="ko" />
+                <style>${style}</style>
+            </head>
+            <body>
+                ${markup}
+                ${webSocketScript({ host, secure })}
+            </body>
+        </html>
+    `
+	return new Response(html, { headers: { "content-type": "text/html" } })
 }
 
 export const handler = ({ clients }: Option) => (req: Request) => {
@@ -55,7 +60,7 @@ export const handler = ({ clients }: Option) => (req: Request) => {
 	const resolvedUrl = path.endsWith("/") ? `${path}index.html` : path
 
 	if (isPrettyUrl) {
-		return serveHtml(resolvedUrl, wsHost, secure)
+		return serveTsx(resolvedUrl, wsHost, secure)
 	}
 	return new Response("not found", { status: 404 })
 }
@@ -67,7 +72,5 @@ type HMR = { detail: { path: string } }
 Deno.serve({ port: 3000 }, handler({ clients }))
 addEventListener("hmr", (e) => {
 	console.log("HMR triggered", (e as unknown as HMR).detail.path)
-	for (const client of clients) {
-		client.send("reload")
-	}
+	clients.forEach((client) => client.send("reload"))
 })

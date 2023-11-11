@@ -4,7 +4,7 @@ import { asynciter } from "https://deno.land/x/asynciter@0.0.18/mod.ts"
 import renderToString from "$preact/render_to_string"
 import { style } from "./style.css.ts"
 
-const toDate = (date: Date) => date.toISOString().split("T")[0]
+export const toDate = (date: Date) => date.toISOString().split("T")[0]
 
 const head = (): string => /*html*/ `
 	<head>
@@ -21,7 +21,7 @@ const entries = await asynciter(walk("posts/", { includeDirs: false, exts: [".ts
 	.concurrentUnorderedMap(({ path }) => loadPost(path))
 	.collect()
 
-console.log(entries)
+// console.log(entries)
 const posts: Post[] = [
 	{
 		date: new Date("2023-11-11"),
@@ -78,4 +78,3 @@ Deno.serve(
 	(_req) => new Response(template, { headers: { "content-type": "text/html" } }),
 )
 
-console.log(template)

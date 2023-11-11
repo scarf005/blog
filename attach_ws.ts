@@ -3,36 +3,38 @@ type Option = {
 	host: string
 }
 
-const onmessage = /* javascript */ `async ({ data }) => {
-    console.log({ data })
-    switch (data) {
-        case "pong":
-            console.log("got pong")
-            break
-        case "reload":
-            console.log("reloading page")
-            location.reload()
-            break
-        default:
-            break
-    }
-}`
-const onerror = "(e) => console.error(`WebSocket error: ${JSON.stringify(e)}`)"
-const onclose = "(v) => console.log(v)"
-
 export const webSocketScript = ({ secure = false, host }: Option) => {
 	const protocol = secure ? "wss" : "ws"
 	const url = `${protocol}://${host}`
-	return `
-    const socket = new WebSocket("${url}")
-    socket.onopen = () => console.log("Socket listening at ${url}")
-    socket.onmessage = ${onmessage}
-    // socket.onerror = ${onerror}
-    socket.onclose = ${onclose}
+	return /*html*/ `
+        <script>
+            const socket = new WebSocket("${url}")
+            const onmessage = async (message) => {
+                console.log("message:", message)
+                switch (message.data) {
+                    case "pong":
+                        console.log("got pong")
+                        break
+                    case "reload":
+                        console.log("reloading page")
+                        location.reload()
+                        break
+                    default:
+                        break
+                }
+            }
+            socket.onopen = () => console.log("Socket listening at ${url}")
+            socket.onmessage = onmessage
+            socket.onerror = (e) => console.error("websocket error", JSON.stringify(e))
+            socket.onclose = (v) => {
+                console.log("close", v)
+                setTimeout(() => location.reload(), 500)
+            }
 
-    function ping() {
-      console.log("sending ping")
-      socket.send("ping")
-    }
-  `
+            function ping() {
+                console.log("sending ping")
+                socket.send("ping")
+            }
+        </script>
+    `
 }
