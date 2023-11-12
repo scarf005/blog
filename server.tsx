@@ -23,9 +23,9 @@ const handleWebsocketPool = (clients: Set<WebSocket>) => (req: Request): Promise
 	return Promise.resolve(response)
 }
 
-const serveTsx = async (path: string, host: string, secure: boolean) => {
+export const serveTsx = async (path: string, host: string, secure: boolean) => {
 	console.log(`req: ${path}`)
-	const filePath = `./posts${path.replace("html", "tsx")}`
+	const filePath = `./posts${path.replace(".html", ".tsx")}`
 	const mod = await import(filePath)
 	const isIndex = path.split("/").length === 2
 	const Component = mod.default as () => JSX.Element
@@ -48,17 +48,24 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
 				</PostLayout>
 			),
 	)
+	const title = `blog://home/scarf${path}`
+	const lang = "ko"
 	return /*html*/ `
         <!DOCTYPE html>
         <html>
             <head>
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-		        <meta lang="ko" />
-                <title>/home/scarf${path}</title>
 
-                <link rel="stylesheet" href="/style.css" />
+                <title>${title}</title>
+                <meta property="og:title" content="${title}" />
+
+		        <meta lang="${lang}" />
+                <meta property="og:locale" content="${lang}" />
+
                 <link rel="stylesheet" href="/sarasa.css" />
+                <link rel="stylesheet" href="/style.css" rel="preload" as="style" />
+
                 ${webSocketScript({ host, secure })}
                 <script type="module">
                     import flamethrower from "https://esm.sh/flamethrower-router"
@@ -106,7 +113,6 @@ export const handler = ({ clients, hostname }: Option) => {
 
 		const path = new URL(req.url, `http://${req.headers.get("host")}`).pathname
 
-		console.log(path, path.endsWith("/"))
 		const isPrettyUrl = path.endsWith("/") || path.endsWith(".html")
 		const resolvedUrl = path.endsWith("/") ? `${path}index.html` : path
 
@@ -141,6 +147,8 @@ if (import.meta.main) {
 	addEventListener("hmr", (e) => {
 		console.log("HMR triggered", (e as unknown as HMR).detail.path)
 		clients.forEach((client) => {
+			// TODO: do not run full page-refresh on CSS reload
+			// or just use astro
 			client.send("reload")
 			console.log(`sent reload to ${client.url}`)
 		})
