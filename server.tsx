@@ -1,8 +1,6 @@
 import { webSocketScript } from "./attach_ws.ts"
 import { renderToString } from "$preact/render_to_string"
-import { style } from "./style.css.ts"
 import { PostLayout } from "./components/post_layout.tsx"
-import { sarasa } from "./sarasa.css.ts"
 import { Layout } from "./components/layout.tsx"
 import { Nav } from "./components/nav.tsx"
 import { JSX } from "preact/jsx-runtime"
@@ -54,12 +52,13 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
         <!DOCTYPE html>
         <html>
             <head>
-                <title>/home/scarf${path}</title>
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
 		        <meta lang="ko" />
-                <style>${sarasa}</style>
-                <style>${style}</style>
+                <title>/home/scarf${path}</title>
+
+                <link rel="stylesheet" href="/style.css" />
+                <link rel="stylesheet" href="/sarasa.css" />
                 ${webSocketScript({ host, secure })}
                 <script type="module">
                     import flamethrower from "https://esm.sh/flamethrower-router"
@@ -115,6 +114,20 @@ export const handler = ({ clients, hostname }: Option) => {
 			const html = await serveTsx(resolvedUrl, wsHost, secure)
 			return new Response(html, { headers: { "content-type": "text/html" } })
 		}
+		if (path.endsWith(".css")) {
+			const css = await Deno.readTextFile(`./${path}`)
+			return new Response(css, { headers: { "content-type": "text/css" } })
+		}
+		if (path.endsWith(".ico")) {
+			return new Response(
+				/*html*/ `
+                <svg width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+                    <text x="10" y="42" font-family="Sarasa Mono Slab K" font-size="64" fill="black">></text>
+                </svg>`,
+				{ headers: { "content-type": "image/svg+xml" } },
+			)
+		}
+
 		return new Response("not found", { status: 404 })
 	}
 }
