@@ -31,8 +31,12 @@ export const style = /*css*/ `
         color: var(--text-color);
         background-color: var(--bg-color);
     }
+    body, img {
+        max-width: 100%;
+    }
     ul {
         padding: 0;
+        list-style-position: inside;
         list-style-type: none;
     }
     a {
@@ -75,7 +79,13 @@ export const style = /*css*/ `
         flex-direction: column;
     }
     @media (max-width: 800px) {
-        article > ul > li > span {
+        body {
+            font-size: 1.2em;
+        }
+        ul {
+            list-style-type: disc;
+        }
+        article ul li span {
             display: none;
         }
     }
