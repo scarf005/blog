@@ -1,6 +1,7 @@
 import { Nav } from "./nav.tsx"
 import { Date } from "./date.tsx"
 import { Layout } from "./layout.tsx"
+import { JSX } from "preact/jsx-runtime"
 
 type Props = {
 	path: string
@@ -15,9 +16,7 @@ export const PostLayout = ({ path, title, date, modifiedDate, children }: Props)
 			<>
 				<h2>{title}</h2>
 				<Date date={date} modifiedDate={modifiedDate} />
-				<section>
-					{children}
-				</section>
+				<section>{children}</section>
 			</>
 		</Layout>
 	)

@@ -2,9 +2,9 @@ type Props = { href?: string }
 export const Nav = ({ href }: Props) => (
 	<nav>
 		<h1>
-			<a href="/">/home</a>
-			<a href="https://github.com/scarf005">/scarf</a>
-			<a href={href}>{href}</a>
+			<a title="page home" href="/">/home</a>
+			<a title="github address" href="https://github.com/scarf005">/scarf</a>
+			<a title="current page" href={href}>{href}</a>
 		</h1>
 	</nav>
 )
