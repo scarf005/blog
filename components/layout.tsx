@@ -1,13 +1,13 @@
-import { Nav } from "./nav.tsx"
+import { JSX } from "preact/jsx-runtime"
 
 type Props = {
-	header: JSX.Element
+	nav: JSX.Element
 	children: JSX.Element
 }
-export const Layout = ({ header, children }: Props) => (
-	<main>
-		<header>{header}</header>
+export const Layout = ({ nav, children }: Props) => (
+	<>
+		{nav}
 		<hr />
-		<article>{children}</article>
-	</main>
+		<main>{children}</main>
+	</>
 )

@@ -33,7 +33,7 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
 	const markup = renderToString(
 		isIndex
 			? (
-				<Layout header={<Nav />}>
+				<Layout nav={<Nav />}>
 					<Component />
 				</Layout>
 			)
