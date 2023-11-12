@@ -5,6 +5,7 @@ import { PostLayout } from "./components/post_layout.tsx"
 import { sarasa } from "./sarasa.css.ts"
 import { Layout } from "./components/layout.tsx"
 import { Nav } from "./components/nav.tsx"
+import { JSX } from "preact/jsx-runtime"
 
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
 
@@ -28,7 +29,7 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
 	console.log(`req: ${path}`)
 	const filePath = `./posts${path.replace("html", "tsx")}`
 	const mod = await import(filePath)
-	const isIndex = path.endsWith("index.html")
+	const isIndex = path.split("/").length === 2
 	const Component = mod.default as () => JSX.Element
 	const stat = await Deno.lstat(filePath)
 	const markup = renderToString(
@@ -49,7 +50,7 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
 				</PostLayout>
 			),
 	)
-	const html = /*html*/ `
+	return /*html*/ `
         <!DOCTYPE html>
         <html>
             <head>
@@ -70,56 +71,65 @@ const serveTsx = async (path: string, host: string, secure: boolean) => {
             </body>
         </html>
     `
-	return new Response(html, { headers: { "content-type": "text/html" } })
 }
 
-export const handler = ({ clients, hostname }: Option) => (req: Request) => {
-	const { protocol } = new URL(req.url)
-	const secure = protocol === "https:"
+const getLocalAddress = () => Deno.networkInterfaces().map((x) => x.address)
 
-	const wsHost = req.headers.get("host")!
-
-	if (isWebSocket(req)) {
-		return handleWebsocketPool(clients)(req)
+export const isExternalRequest = (hostname: "0.0.0.0" | "localhost" | string) => {
+	const internal = ["0.0.0.0", "localhost", ...getLocalAddress()]
+	return (url: URL) => {
+		switch (hostname) {
+			case "0.0.0.0":
+			case "localhost":
+				return !internal.includes(url.hostname)
+			default:
+				return url.hostname !== hostname
+		}
 	}
-	const url = new URL(req.url)
-	if (url.hostname !== hostname) {
-		return new Response(null, {
-			status: 301,
-			headers: {
-				location: req.url,
-			},
-		})
-	}
-
-	const path = new URL(req.url, `http://${req.headers.get("host")}`).pathname
-
-	console.log(path, path.endsWith("/"))
-	const isPrettyUrl = path.endsWith("/") || path.endsWith(".html")
-	const resolvedUrl = path.endsWith("/") ? `${path}index.html` : path
-
-	if (isPrettyUrl) {
-		return serveTsx(resolvedUrl, wsHost, secure)
-	}
-	// return new Response(null, {
-	// 	status: 301,
-	// 	headers: {
-	// 		location: req.url,
-	// 	},
-	// })
-	return new Response("not found", { status: 404 })
 }
 
-const clients = new Set<WebSocket>()
+export const handler = ({ clients, hostname }: Option) => {
+	const external = isExternalRequest(hostname)
+	return async (req: Request) => {
+		const { protocol } = new URL(req.url)
+		const secure = protocol === "https:"
 
+		const wsHost = req.headers.get("host")!
+
+		if (isWebSocket(req)) {
+			return handleWebsocketPool(clients)(req)
+		}
+		const url = new URL(req.url)
+		if (external(url)) {
+			console.log(url, hostname)
+			return new Response(null, { status: 301, headers: { location: req.url } })
+		}
+
+		const path = new URL(req.url, `http://${req.headers.get("host")}`).pathname
+
+		console.log(path, path.endsWith("/"))
+		const isPrettyUrl = path.endsWith("/") || path.endsWith(".html")
+		const resolvedUrl = path.endsWith("/") ? `${path}index.html` : path
+
+		if (isPrettyUrl) {
+			const html = await serveTsx(resolvedUrl, wsHost, secure)
+			return new Response(html, { headers: { "content-type": "text/html" } })
+		}
+		return new Response("not found", { status: 404 })
+	}
+}
 type HMR = { detail: { path: string } }
 
-const hostname = "localhost"
-Deno.serve({ port: 3000, hostname }, handler({ clients, hostname }))
-addEventListener("hmr", (e) => {
-	console.log("HMR triggered", (e as unknown as HMR).detail.path)
-	clients.forEach((client) => {
-		client.send("reload")
-		console.log(`sent reload to ${client.url}`)
+if (import.meta.main) {
+	const clients = new Set<WebSocket>()
+
+	const hostname = "0.0.0.0"
+	Deno.serve({ port: 3000, hostname }, handler({ clients, hostname }))
+	addEventListener("hmr", (e) => {
+		console.log("HMR triggered", (e as unknown as HMR).detail.path)
+		clients.forEach((client) => {
+			client.send("reload")
+			console.log(`sent reload to ${client.url}`)
+		})
 	})
-})
+}
