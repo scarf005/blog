@@ -37,7 +37,7 @@ const loadPost = async (path: string) => {
 
 export const posts = await asynciter(
 	// FIXME: do something with hard-coded path
-	walk("posts/", { includeDirs: false, exts: [".tsx"], skip: [/index.tsx/] }),
+	walk("posts/", { includeDirs: false, exts: [".tsx"], skip: [/^posts\/[^\/]+\..+$/] }),
 )
 	.concurrentUnorderedMap(async ({ path }) => {
 		try {
