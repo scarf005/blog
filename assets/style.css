@@ -9,6 +9,7 @@
         --bg-color: var(--light);
         --link-color: #0a85ba;
         --link-visited-color: #39383c;
+        --code-color: #ee795f;
     }
 }
 
@@ -18,25 +19,52 @@
         --bg-color: var(--dark);
         --link-color: #7bffa9;
         --link-visited-color: #f8e1c2;
+        --code-color: #f6cfc5;
     }
 }
 
 html {
-    font-family: "Sarasa Mono Slab K";
+    font-family: "IBM 3270";
     font-variant-ligatures: discretionary-ligatures;
     font-size: 1.5em;
+    word-break: keep-all;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 100%;
+    height: 100%;
+
     color: var(--text-color);
     background-color: var(--bg-color);
 }
 
 body {
-    min-width: 75vw;
-    max-width: 100dvh;
+    width: min(max(400px, 75vw), 1000px);
+    height: 100%;
     margin: auto;
     padding: 0 10vw;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    margin-bottom: auto;
+}
+
+hr {
+    margin: 0;
+    align-self: stretch;
+}
+
+@media (max-width: 800px) {
+    ul li span {
+        display: none;
+    }
+
+    body {
+        padding: 0 4vw;
+    }
 }
 
 img,
@@ -48,14 +76,9 @@ video {
     background: var(--bg-color);
 }
 
-img:not(:first-child) {
+img {
     display: block;
-    margin: auto;
-}
-
-h2+img {
-    float: left;
-    margin-right: 1em;
+    margin: 1.5em auto;
 }
 
 ul {
@@ -65,11 +88,6 @@ ul {
     flex-direction: column;
 }
 
-a {
-    color: var(--link-color);
-    text-decoration-thickness: 0.075em;
-    text-decoration-line: underline;
-}
 
 /* https://searchfox.org/mozilla-central/source/layout/style/res/html.css#172-173 */
 nav {
@@ -82,6 +100,35 @@ nav {
 h1 {
     margin-block-end: 0.25em;
 }
+
+code {
+    font-family: inherit;
+    color: var(--code-color);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration-thickness: 0.075em;
+    text-decoration-line: underline;
+}
+
+a:visited {
+    color: var(--link-visited-color);
+}
+
+a:hover code {
+    color: var(--bg-color);
+    background-color: var(--code-color);
+}
+
+a:has(code) {
+    text-decoration-color: var(--code-color);
+}
+
+a:hover:has(code) {
+    text-decoration-color: var(--bg-color);
+}
+
 
 /* selection before */
 a:hover:not(:has(img)),
@@ -96,8 +143,7 @@ nav a:hover~a {
     background-color: var(--bg-color);
 }
 
-a:visited:not(:has(img)),
-a:visited:hover {
+a:visited:not(:has(img)) {
     color: var(--link-visited-color);
 }
 
@@ -110,14 +156,4 @@ nav h1:hover>a:visited {
 nav a:hover~a:visited {
     color: var(--link-visited-color);
     background-color: var(--bg-color);
-}
-
-@media (max-width: 800px) {
-    html {
-        font-size: 1.2em;
-    }
-
-    ul li span {
-        display: none;
-    }
 }

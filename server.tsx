@@ -48,7 +48,7 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
 				</PostLayout>
 			),
 	)
-	const title = `blog://home/scarf${path}`
+	const title = `/home/scarf${path}`
 	const lang = "ko"
 	return /*html*/ `
         <!DOCTYPE html>
@@ -63,8 +63,8 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
 		        <meta lang="${lang}" />
                 <meta property="og:locale" content="${lang}" />
 
-                <link rel="stylesheet" href="/sarasa.css" />
-                <link rel="stylesheet" href="/style.css" rel="preload" as="style" />
+                <link rel="stylesheet" href="/assets/3270.css" />
+                <link rel="stylesheet" href="/assets/style.css" />
 
                 ${webSocketScript({ host, secure })}
                 <script type="module">
@@ -74,6 +74,9 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
             </head>
             <body>
                 ${markup}
+                <footer>
+                    <p>© 2023 <a href="https://github.com/scarf005">scarf</a> | <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">AGPL-3.0-Only</a> | <a href="https://www.github.com/scarf005/blog">Source</a>
+                </footer>
             </body>
         </html>
     `
@@ -122,7 +125,21 @@ export const handler = ({ clients, hostname }: Option) => {
 		}
 		if (path.endsWith(".css")) {
 			const css = await Deno.readTextFile(`./${path}`)
-			return new Response(css, { headers: { "content-type": "text/css" } })
+			return new Response(css, {
+				headers: {
+					"content-type": "text/css",
+					// "Cache-Control": "public, max-age=31536000, immutable",
+				},
+			})
+		}
+		if (path.endsWith(".woff2")) {
+			const font = await Deno.readFile(`./${path}`)
+			return new Response(font, {
+				headers: {
+					"content-type": "font/woff2",
+					"Cache-Control": "public, max-age=31536000, immutable",
+				},
+			})
 		}
 		if (path.endsWith(".ico")) {
 			return new Response(

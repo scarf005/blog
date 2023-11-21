@@ -1,0 +1,8 @@
+@font-face {
+    font-family: "IBM 3270";
+    src: local("IBM 3270"),
+        url("./3270/Regular.woff2") format("woff2");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
