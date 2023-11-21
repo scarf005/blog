@@ -39,36 +39,8 @@ html {
     background-color: var(--bg-color);
 }
 
-@media print {
-
-    nav,
-    nav~hr,
-    footer,
-    video {
-        display: none;
-    }
-
-    html {
-        font-size: 1em;
-    }
-
-    img {
-        max-width: 50%;
-    }
-}
-
-@media (max-width: 800px) {
-    ul li span {
-        display: none;
-    }
-
-    body {
-        padding: 0 4vw;
-    }
-}
-
 body {
-    width: min(max(400px, 75vw), 900px);
+    width: min(max(min(100vw, 400px), 75vw), 900px);
     height: 100%;
     margin: auto;
     padding: 0 10vw;
@@ -113,10 +85,28 @@ ul {
     flex-direction: column;
 }
 
+footer ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+footer ul li::after {
+    content: "|";
+    margin: 0 1vw;
+    /* Adjust spacing to the right of the pipe */
+}
+
+footer ul li:last-child::after {
+    content: "";
+    /* Remove pipe after the last item */
+}
+
 /* https://searchfox.org/mozilla-central/source/layout/style/res/html.css#172-173 */
 nav {
     font-weight: bold;
     font-size: 1.5em;
+    padding: 0;
     margin-block-start: 0.67em;
     margin-block-end: 0.67em;
 }
@@ -136,8 +126,62 @@ a {
     text-decoration-line: underline;
 }
 
-a:visited {
+/*
+ * style hovered anchors
+ */
+a:hover:not(:has(img)) {
+    color: var(--bg-color);
+    background-color: var(--link-color);
+}
+
+a:visited:not(:has(img)) {
     color: var(--link-visited-color);
+}
+
+a:visited:hover {
+    color: var(--bg-color);
+    background-color: var(--link-visited-color);
+}
+
+/*
+ * Progress-bar style selection
+ */
+
+/* 1. SELECT all links */
+nav:has(a:hover) a {
+    color: var(--bg-color);
+    background-color: var(--link-color);
+}
+
+nav:has(a:hover) a:visited {
+    background-color: var(--link-visited-color);
+}
+
+/* 2. UNSELECT links that are after hovered one */
+nav a:hover~a {
+    color: var(--link-color);
+    background-color: var(--bg-color);
+}
+
+nav a:hover~a:visited {
+    color: var(--link-visited-color);
+    background-color: var(--bg-color);
+}
+
+/*
+ * anchor with code
+ */
+a:hover code {
+    color: var(--bg-color);
+    background-color: var(--code-color);
+}
+
+a:has(code) {
+    text-decoration-color: var(--code-color);
+}
+
+a:hover:has(code) {
+    text-decoration-color: var(--bg-color);
 }
 
 a:hover code {
@@ -153,30 +197,42 @@ a:hover:has(code) {
     text-decoration-color: var(--bg-color);
 }
 
-/* selection before */
-a:hover:not(:has(img)),
-nav h1:hover a {
-    color: var(--bg-color);
-    background-color: var(--link-color);
+@media (width < 600px) {
+    body {
+        padding: 0 0;
+    }
 }
 
-/* selection after */
-nav a:hover~a {
-    color: var(--link-color);
-    background-color: var(--bg-color);
+@media (600px <=width < 800px) {
+    body {
+        padding: 0 4vw;
+    }
 }
 
-a:visited:not(:has(img)) {
-    color: var(--link-visited-color);
+@media (width < 800px) {
+    ul li span {
+        display: none;
+    }
+
+    footer {
+        font-size: 0.75em;
+    }
 }
 
-a:visited:hover:not(:has(img)),
-nav h1:hover>a:visited {
-    color: var(--bg-color);
-    background-color: var(--link-visited-color);
-}
+@media print {
 
-nav a:hover~a:visited {
-    color: var(--link-visited-color);
-    background-color: var(--bg-color);
+    nav,
+    nav~hr,
+    footer,
+    video {
+        display: none;
+    }
+
+    html {
+        font-size: 1em;
+    }
+
+    img {
+        max-width: 50%;
+    }
 }
