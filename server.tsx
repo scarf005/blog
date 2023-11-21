@@ -23,6 +23,8 @@ const handleWebsocketPool = (clients: Set<WebSocket>) => (req: Request): Promise
 	return Promise.resolve(response)
 }
 
+const isDev = Deno.env.get("PROD") === undefined
+
 export const serveTsx = async (path: string, host: string, secure: boolean) => {
 	console.log(`req: ${path}`)
 	const filePath = `./posts${path.replace(".html", ".tsx")}`
@@ -61,7 +63,7 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
                 <link rel="stylesheet" href="/assets/3270.css" rel="preload" as="style" />
                 <link rel="stylesheet" href="/assets/style.css" rel="preload" as="style" />
 
-                ${webSocketScript({ host, secure })}
+                ${isDev ? webSocketScript({ host, secure }) : ""}
                 <script type="module">
                     import flamethrower from "https://esm.sh/v134/flamethrower-router@0.0.0-meme.12"
                     flamethrower({ log: true, pageTransitions: true })
@@ -70,7 +72,11 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
             <body>
                 ${markup}
                 <footer>
-                    <p>© 2023 <a href="https://github.com/scarf005">scarf</a> | <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">AGPL-3.0-Only</a> | <a href="https://www.github.com/scarf005/blog">Source</a>
+                    <ul>
+                        <li>© 2023 <a href="https://github.com/scarf005">scarf</a></li>
+                        <li><a href="https://www.gnu.org/licenses/agpl-3.0.en.html">AGPL-3.0-Only</a></li>
+                        <li><a href="https://www.github.com/scarf005/blog">Source</a></li>
+                    </ul>
                 </footer>
             </body>
         </html>
