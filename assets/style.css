@@ -40,7 +40,8 @@ html {
 }
 
 body {
-    width: min(max(min(100vw, 400px), 75vw), 900px);
+    width: min(max(min(100vw, 400px), 75vw), 1400px);
+    box-sizing: border-box;
     height: 100%;
     margin: auto;
     padding: 0 10vw;
@@ -54,6 +55,9 @@ main {
 
 footer {
     margin: 0 auto;
+    /* white-space: nowrap; */
+    /* overflow: hidden; */
+    font-size: min(max(0.5em, 2.6vw), 1em);
 }
 
 hr {
@@ -83,23 +87,6 @@ ul {
     list-style-position: inside;
     display: flex;
     flex-direction: column;
-}
-
-footer ul {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-}
-
-footer ul li::after {
-    content: "|";
-    margin: 0 1vw;
-    /* Adjust spacing to the right of the pipe */
-}
-
-footer ul li:last-child::after {
-    content: "";
-    /* Remove pipe after the last item */
 }
 
 /* https://searchfox.org/mozilla-central/source/layout/style/res/html.css#172-173 */
@@ -199,12 +186,7 @@ a:hover:has(code) {
 
 @media (width < 600px) {
     body {
-        padding: 0 0;
-    }
-}
-
-@media (600px <=width < 800px) {
-    body {
+        word-break: break-all;
         padding: 0 4vw;
     }
 }
@@ -212,10 +194,6 @@ a:hover:has(code) {
 @media (width < 800px) {
     ul li span {
         display: none;
-    }
-
-    footer {
-        font-size: 0.75em;
     }
 }
 
