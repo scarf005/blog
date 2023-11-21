@@ -1,0 +1,16 @@
+{
+	"name": "/home/scarf",
+	"short_name": "/home/scarf",
+	"start_url": ".",
+	"display": "minimal-ui",
+    "theme_color": "#000000",
+    "background_color": "#ffffff",
+	"icons": [
+		{
+			"src": "./assets/favicon.svg",
+			"sizes": "16x16 24x24 32x32 48x48 64x64 72x72 96x96 128x128 256x256 512x512",
+			"type": "image/svg+xml",
+			"purpose": "any"
+		}
+	]
+}

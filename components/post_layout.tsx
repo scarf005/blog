@@ -17,9 +17,7 @@ export const PostLayout = ({ path, title, date, modifiedDate, children }: Props)
 				<h1>{title}</h1>
 				<DateRange date={date} modifiedDate={modifiedDate} />
 			</header>
-			<article>
-				<section>{children}</section>
-			</article>
+			<main>{children}</main>
 		</>
 	</Layout>
 )

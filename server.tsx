@@ -2,6 +2,8 @@ import { renderToString } from "$preact/render_to_string"
 import { JSX } from "preact/jsx-runtime"
 import { PostLayout } from "~/components/mod.ts"
 import { webSocketScript } from "./attach_ws.ts"
+import { contentType } from "$std/media_types/content_type.ts"
+import { extname } from "$std/path/posix/extname.ts"
 
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
 
@@ -41,25 +43,29 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
 	const lang = "ko"
 	return /*html*/ `
         <!DOCTYPE html>
-        <html>
+        <html lang="ko">
             <head>
                 <meta charset="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
                 <title>${title}</title>
                 <meta property="og:title" content="${title}" />
+                <meta name="description" content="${title}" />
 
 		        <meta lang="${lang}" />
                 <meta property="og:locale" content="${lang}" />
 
+                <meta name="theme-color" content="#000000" />
+                <link rel="manifest" href="/manifest.json" />
+
                 <link rel="stylesheet" href="/assets/3270.css" rel="preload" as="style" />
                 <link rel="stylesheet" href="/assets/style.css" rel="preload" as="style" />
 
-                <!-- ${webSocketScript({ host, secure })}
+                ${webSocketScript({ host, secure })}
                 <script type="module">
                     import flamethrower from "https://esm.sh/v134/flamethrower-router@0.0.0-meme.12"
                     flamethrower({ log: true, pageTransitions: true })
-                </script> -->
+                </script>
             </head>
             <body>
                 ${markup}
@@ -112,32 +118,17 @@ export const handler = ({ clients, hostname }: Option) => {
 			const html = await serveTsx(resolvedUrl, wsHost, secure)
 			return new Response(html, { headers: { "content-type": "text/html" } })
 		}
-		if (path.endsWith(".css")) {
-			const css = await Deno.readTextFile(`./${path}`)
-			return new Response(css, {
+
+		if (path.startsWith("/assets/") || ["/favicon.ico", "/manifest.json"].includes(path)) {
+			console.log({ path })
+			const asset = await Deno.readFile(`./${path}`)
+			const mimetype = contentType(extname(path)) ?? "text/plain"
+			return new Response(asset, {
 				headers: {
-					"content-type": "text/css",
-					"Cache-Control": "public, max-age=31536000, immutable",
+					"content-type": mimetype,
+					// "Cache-Control": "public, max-age=31536000, immutable",
 				},
 			})
-		}
-		if (path.endsWith(".woff2")) {
-			const font = await Deno.readFile(`./${path}`)
-			return new Response(font, {
-				headers: {
-					"content-type": "font/woff2",
-					"Cache-Control": "public, max-age=31536000, immutable",
-				},
-			})
-		}
-		if (path.endsWith(".ico")) {
-			return new Response(
-				/*html*/ `
-                <svg width="48" height="48" xmlns="http://www.w3.org/2000/svg">
-                    <text x="10" y="42" font-family="Sarasa Mono Slab K" font-size="64" fill="black">></text>
-                </svg>`,
-				{ headers: { "content-type": "image/svg+xml" } },
-			)
 		}
 
 		return new Response("not found", { status: 404 })
