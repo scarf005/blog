@@ -1,5 +1,5 @@
 import { Nav } from "./nav.tsx"
-import { Date } from "./date.tsx"
+import { DateRange } from "./date.tsx"
 import { Layout } from "./layout.tsx"
 import { JSX } from "preact/jsx-runtime"
 
@@ -15,7 +15,7 @@ export const PostLayout = ({ path, title, date, modifiedDate, children }: Props)
 		<>
 			<header>
 				<h1>{title}</h1>
-				<Date date={date} modifiedDate={modifiedDate} />
+				<DateRange date={date} modifiedDate={modifiedDate} />
 			</header>
 			<article>
 				<section>{children}</section>

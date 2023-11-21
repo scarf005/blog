@@ -1,7 +1,7 @@
-import { webSocketScript } from "./attach_ws.ts"
 import { renderToString } from "$preact/render_to_string"
 import { JSX } from "preact/jsx-runtime"
-import { Date, Layout, Nav, PostLayout } from "~/components/mod.ts"
+import { PostLayout } from "~/components/mod.ts"
+import { webSocketScript } from "./attach_ws.ts"
 
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
 
@@ -25,26 +25,17 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
 	console.log(`req: ${path}`)
 	const filePath = `./posts${path.replace(".html", ".tsx")}`
 	const mod = await import(filePath)
-	const isIndex = path.split("/").length === 2
 	const Component = mod.default as () => JSX.Element
 	const stat = await Deno.lstat(filePath)
 	const markup = renderToString(
-		isIndex
-			? (
-				<Layout nav={<Nav />}>
-					<Component />
-				</Layout>
-			)
-			: (
-				<PostLayout
-					path={path}
-					date={mod.date ?? stat.birthtime}
-					modifiedDate={mod.modifiedDate ?? stat.mtime}
-					title={mod.title}
-				>
-					<Component />
-				</PostLayout>
-			),
+		<PostLayout
+			path={path}
+			date={mod.date ?? stat.birthtime}
+			modifiedDate={mod.modifiedDate ?? stat.mtime}
+			title={mod.title ?? "목차"}
+		>
+			<Component />
+		</PostLayout>,
 	)
 	const title = `/home/scarf${path}`
 	const lang = "ko"
@@ -61,14 +52,14 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
 		        <meta lang="${lang}" />
                 <meta property="og:locale" content="${lang}" />
 
-                <link rel="stylesheet" href="/assets/3270.css" />
-                <link rel="stylesheet" href="/assets/style.css" />
+                <link rel="stylesheet" href="/assets/3270.css" rel="preload" as="style" />
+                <link rel="stylesheet" href="/assets/style.css" rel="preload" as="style" />
 
-                ${webSocketScript({ host, secure })}
+                <!-- ${webSocketScript({ host, secure })}
                 <script type="module">
-                    import flamethrower from "https://esm.sh/flamethrower-router"
+                    import flamethrower from "https://esm.sh/v134/flamethrower-router@0.0.0-meme.12"
                     flamethrower({ log: true, pageTransitions: true })
-                </script>
+                </script> -->
             </head>
             <body>
                 ${markup}
@@ -126,7 +117,7 @@ export const handler = ({ clients, hostname }: Option) => {
 			return new Response(css, {
 				headers: {
 					"content-type": "text/css",
-					// "Cache-Control": "public, max-age=31536000, immutable",
+					"Cache-Control": "public, max-age=31536000, immutable",
 				},
 			})
 		}

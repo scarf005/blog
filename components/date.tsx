@@ -3,7 +3,7 @@ type DateOption = {
 	date: Date
 	modifiedDate: Date
 }
-export const Date = ({ date, modifiedDate }: DateOption) => {
+export const DateRange = ({ date, modifiedDate }: DateOption) => {
 	const dateStr = toDate(date)
 	const modifiedDateStr = toDate(modifiedDate)
 
