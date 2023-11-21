@@ -1,9 +1,7 @@
 import { webSocketScript } from "./attach_ws.ts"
 import { renderToString } from "$preact/render_to_string"
-import { PostLayout } from "./components/post_layout.tsx"
-import { Layout } from "./components/layout.tsx"
-import { Nav } from "./components/nav.tsx"
 import { JSX } from "preact/jsx-runtime"
+import { Date, Layout, Nav, PostLayout } from "~/components/mod.ts"
 
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
 
