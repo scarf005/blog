@@ -1,4 +1,4 @@
-import { md } from "../components/md.tsx"
+import { md } from "./_components/md.tsx"
 
 const avatar = (
 	<img

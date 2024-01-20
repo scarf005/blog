@@ -2,7 +2,7 @@ import { extname } from "$std/path/posix/extname.ts"
 import { contentType } from "$std/media_types/content_type.ts"
 import { renderToString } from "$preact/render_to_string"
 import { JSX } from "preact/jsx-runtime"
-import { PostLayout, Footer } from "~/components/mod.ts"
+import { Footer, PostLayout } from "~/components/mod.ts"
 import { webSocketScript } from "./attach_ws.ts"
 
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
@@ -41,7 +41,7 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
 			>
 				<Component />
 			</PostLayout>
-<Footer/>
+			<Footer />
 		</>,
 	)
 	const title = `/home/scarf${path}`
@@ -81,7 +81,9 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
 
 const getLocalAddress = () => Deno.networkInterfaces().map((x) => x.address)
 
-export const isExternalRequest = (hostname: "0.0.0.0" | "localhost" | string) => {
+export const isExternalRequest = (
+	hostname: "0.0.0.0" | "localhost" | string,
+) => {
 	const internal = ["0.0.0.0", "localhost", ...getLocalAddress()]
 	return (url: URL) => {
 		switch (hostname) {
@@ -108,7 +110,10 @@ export const handler = ({ clients, hostname }: Option) => {
 		const url = new URL(req.url)
 		if (external(url)) {
 			console.log(url, hostname)
-			return new Response(null, { status: 301, headers: { location: req.url } })
+			return new Response(null, {
+				status: 301,
+				headers: { location: req.url },
+			})
 		}
 
 		const path = new URL(req.url, `http://${req.headers.get("host")}`).pathname
@@ -121,7 +126,10 @@ export const handler = ({ clients, hostname }: Option) => {
 			return new Response(html, { headers: { "content-type": "text/html" } })
 		}
 
-		if (path.startsWith("/assets/") || ["/favicon.ico", "/manifest.json"].includes(path)) {
+		if (
+			path.startsWith("/assets/") ||
+			["/favicon.ico", "/manifest.json"].includes(path)
+		) {
 			console.log({ path })
 			const asset = await Deno.readFile(`./${path}`)
 			const mimetype = contentType(extname(path)) ?? "text/plain"

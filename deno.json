@@ -1,6 +1,8 @@
 {
 	"tasks": {
-		"serve": "deno run --unstable-hmr=posts -A server.tsx"
+		"lume": "echo \"import 'lume/cli.ts'\" | deno run --unstable -A -",
+		"build": "deno task lume",
+		"serve": "deno task lume -s"
 	},
 	"fmt": {
 		"semiColons": false,
@@ -12,7 +14,8 @@
 	},
 	"importMap": "import_map.json",
 	"compilerOptions": {
-		"jsx": "react-jsx",
+		"types": ["lume/types.ts"],
+	    "jsx": "react-jsx",
 		"jsxImportSource": "preact"
 	}
 }

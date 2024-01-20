@@ -1,16 +1,10 @@
-import { OLogN, Video } from "~/components/mod.ts"
+import { OLogN, Video } from "../../_components/mod.ts"
 
 export const date = new Date("2023-11-12")
 export const title = "생활에 도움이 되는 이진 탐색"
 
 const preface = (
 	<section>
-		<img
-			width={300}
-			height={400}
-			alt="상상도 못한 정체"
-			src="http://i3.ruliweb.com/img/18/04/05/162958ef2fb4842b3.png"
-		/>
 		<p>
 			쓰던 도구에 오류가 나면 해결하느라 하루를 꼬박 낭비하게 된다. 그런데 원인은 놀랄 만큼
 			간단한 경우가 많다. 수학의 힘을 써서 시간을 아낄 방법이 없을까? 이진 탐색을 쓰면 된다.
@@ -27,9 +21,9 @@ const git = (
 		</h2>
 		<p>
 			git으로 작업할 때{" "}
-			<a href="https://en.wikipedia.org/wiki/Atomic_commit">최소 단위별로 커밋</a>하면 좋다.
-			{" "}
-			<code>git bisect</code>
+			<a href="https://en.wikipedia.org/wiki/Atomic_commit">
+				최소 단위별로 커밋
+			</a>하면 좋다. <code>git bisect</code>
 			를 쓸 수 있기 때문이다.{" "}
 		</p>
 		<p>

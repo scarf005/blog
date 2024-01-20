@@ -10,7 +10,9 @@ type Props = {
 	modifiedDate: Date
 	children: JSX.Element
 }
-export const PostLayout = ({ path, title, date, modifiedDate, children }: Props) => (
+export const PostLayout = (
+	{ path, title, date, modifiedDate, children }: Props,
+) => (
 	<Layout nav={<Nav href={path} />}>
 		<>
 			<header>
