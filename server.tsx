@@ -1,9 +1,9 @@
+import { extname } from "$std/path/posix/extname.ts"
+import { contentType } from "$std/media_types/content_type.ts"
 import { renderToString } from "$preact/render_to_string"
 import { JSX } from "preact/jsx-runtime"
-import { PostLayout } from "~/components/mod.ts"
+import { PostLayout, Footer } from "~/components/mod.ts"
 import { webSocketScript } from "./attach_ws.ts"
-import { contentType } from "$std/media_types/content_type.ts"
-import { extname } from "$std/path/posix/extname.ts"
 
 const isWebSocket = (req: Request) => req.headers.get("upgrade") === "websocket"
 
@@ -32,14 +32,17 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
 	const Component = mod.default as () => JSX.Element
 	const stat = await Deno.lstat(filePath)
 	const markup = renderToString(
-		<PostLayout
-			path={path}
-			date={mod.date ?? stat.birthtime}
-			modifiedDate={mod.modifiedDate ?? stat.mtime}
-			title={mod.title ?? "목차"}
-		>
-			<Component />
-		</PostLayout>,
+		<>
+			<PostLayout
+				path={path}
+				date={mod.date ?? stat.birthtime}
+				modifiedDate={mod.modifiedDate ?? stat.mtime}
+				title={mod.title ?? "목차"}
+			>
+				<Component />
+			</PostLayout>
+<Footer/>
+		</>,
 	)
 	const title = `/home/scarf${path}`
 	const lang = "ko"
@@ -71,11 +74,6 @@ export const serveTsx = async (path: string, host: string, secure: boolean) => {
             </head>
             <body>
                 ${markup}
-                <footer>
-                    <p>© 2023 <a href="https://github.com/scarf005">scarf</a>
-                    | <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">AGPL-3.0-Only</a>
-                    | <a href="https://www.github.com/scarf005/blog">Source</a></p>
-                </footer>
             </body>
         </html>
     `
