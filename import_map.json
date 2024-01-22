@@ -3,7 +3,7 @@
 		"~/": "./",
 		"lume/": "https://deno.land/x/lume@v2.0.3/",
 		"$std/": "https://deno.land/std@0.212.0/",
-        "preact": "https://esm.sh/preact@10.19.3",
+		"preact": "https://esm.sh/preact@10.19.3",
 		"preact/": "https://esm.sh/preact@10.19.3/"
 	}
 }

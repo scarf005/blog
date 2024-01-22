@@ -24,8 +24,8 @@
 }
 
 html {
-    font-family: "Sarasa Term K, IBM 3270";
-    font-variant-ligatures: discretionary-ligatures;
+    /* font-family: "Sarasa Term K, IBM 3270"; */
+    /* font-variant-ligatures: discretionary-ligatures; */
     font-size: 1.5em;
     word-break: keep-all;
 

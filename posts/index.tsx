@@ -1,4 +1,5 @@
 import { toDate } from "~/_components/date.tsx"
+export const tags = ["meta"]
 
 type Props = { url: string; date: Date; title?: string }
 
@@ -11,8 +12,6 @@ const Preview = ({ url, date, title }: Props) => (
 
 export default ({ search }: Lume.Data) => (
 	<ul>
-		{search.pages(undefined, "date=desc")
-			.filter(({ url }) => url.startsWith("/posts"))
-			.map(Preview)}
+		{search.pages("!meta", "date=desc").map(Preview)}
 	</ul>
 )

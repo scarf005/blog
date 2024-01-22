@@ -14,11 +14,11 @@ export default ({ title, children }: Lume.Data, {}: Lume.Helpers) => (
 			<meta name="theme-color" content="#000000" />
 
 			<link rel="icon" href="/assets/favicon.svg" />
-			{/* <link rel="manifest" href="/manifest.json" /> */}
 
-			<link rel="stylesheet preload" href="/assets/3270.css" as="style" />
-			{/* @ts-expect-error: inline is lume plugin property */}
-			<link rel="stylesheet" href="/assets/style.css" inline />
+			{/* @ts-ignore: inline is lume plugin property */}
+			<link rel="stylesheet" inline href="/assets/style.css" />
+			{/* @ts-ignore: inline is lume plugin property */}
+			<link rel="stylesheet" inline href="/assets/url.css" />
 		</head>
 		<body>{children}</body>
 	</html>
