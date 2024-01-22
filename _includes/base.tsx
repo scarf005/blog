@@ -20,6 +20,9 @@ export default ({ title, children }: Lume.Data, {}: Lume.Helpers) => (
 			{/* @ts-ignore: inline is lume plugin property */}
 			<link rel="stylesheet" inline href="/assets/url.css" />
 		</head>
-		<body>{children}</body>
+		<body>
+			{children}
+			<script type="module" src="/assets/flamethrower/flamethrower.js"></script>
+		</body>
 	</html>
 )
