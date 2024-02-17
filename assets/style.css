@@ -24,9 +24,6 @@
 }
 
 html {
-    /* font-family: "Sarasa Term K, IBM 3270"; */
-    /* font-variant-ligatures: discretionary-ligatures; */
-    font-size: 1.5em;
     word-break: keep-all;
 
     display: flex;
@@ -57,7 +54,7 @@ footer {
     margin: 0 auto;
     /* white-space: nowrap; */
     /* overflow: hidden; */
-    font-size: min(max(0.5em, 2.6vw), 1em);
+    font-size: 0.8em;
 }
 
 hr {
@@ -204,10 +201,6 @@ a:hover:has(code) {
     footer,
     video {
         display: none;
-    }
-
-    html {
-        font-size: 1em;
     }
 
     img {
