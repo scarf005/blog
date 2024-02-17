@@ -1,7 +1,10 @@
 a[href^="https://"],
 a[href^="mailto:"] {
     padding-left: 1.15em;
-    background: var(--icon) no-repeat 0 0.33em / 1em;
+    background-image: var(--icon);
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position-y: 70%;
 }
 
 a[href^="https://"] {
