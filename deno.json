@@ -14,6 +14,8 @@
 	},
 	"importMap": "import_map.json",
 	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
 		"types": ["lume/types.ts"],
 		"jsx": "react-jsx",
 		"jsxImportSource": "preact"
