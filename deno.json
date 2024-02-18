@@ -2,8 +2,7 @@
 	"tasks": {
 		"lume": "echo \"import 'lume/cli.ts'\" | deno run --lock=deno.lock  --unstable -A -",
 		"build": "deno task lume",
-		"serve": "deno task lume -s",
-		"cache": "deno cache _config.ts && deno cache $(deno run cache.ts)"
+		"serve": "deno task lume -s"
 	},
 	"fmt": {
 		"semiColons": false,

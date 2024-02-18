@@ -18,7 +18,7 @@ site
 site
 	.use(jsx())
 	.use(mdx())
-	.use(inline())
+	.use(inline({ attribute: "data-inline" }))
 	.use(relativeUrls())
 	.use(minifyHTML())
 
