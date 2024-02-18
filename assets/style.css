@@ -7,9 +7,9 @@
     :root {
         --text-color: var(--dark);
         --bg-color: var(--light);
-        --link-color: #0a85ba;
+        --link-color: #077cae;
         --link-visited-color: #39383c;
-        --code-color: #ee795f;
+        --code-color: #cf4919;
     }
 }
 
@@ -18,20 +18,17 @@
         --text-color: var(--light);
         --bg-color: var(--dark);
         --link-color: #7bffa9;
-        --link-visited-color: #f8e1c2;
-        --code-color: #f6cfc5;
+        --link-visited-color: #f6cc95;
+        --code-color: #f69077;
     }
 }
 
 html {
-    word-break: keep-all;
-
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    max-width: 100%;
-    height: 100dvh;
 
+    word-break: keep-all;
     color: var(--text-color);
     background-color: var(--bg-color);
 }
@@ -39,11 +36,13 @@ html {
 body {
     width: min(max(min(100vw, 400px), 75vw), 1400px);
     box-sizing: border-box;
-    height: 100%;
-    margin: auto;
-    padding: 0 10vw;
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
+
+    margin-top: 0;
+    margin-inline: auto;
+    padding: 0 10vw;
 }
 
 main {
@@ -51,9 +50,7 @@ main {
 }
 
 footer {
-    margin: 0 auto;
-    /* white-space: nowrap; */
-    /* overflow: hidden; */
+    margin: 0.8em auto;
     font-size: 0.8em;
 }
 
@@ -77,6 +74,10 @@ video {
     background: var(--bg-color);
     display: block;
     margin: 1.5em auto;
+}
+
+video {
+    aspect-ratio: 16/9;
 }
 
 ul {
@@ -184,11 +185,10 @@ a:hover:has(code) {
 @media (width < 600px) {
     body {
         word-break: break-all;
-        padding: 0 4vw;
     }
 }
 
-@media (width < 800px) {
+@media (width < 500px) {
     ul li span {
         display: none;
     }
