@@ -1,18 +1,12 @@
-import { PostLayout } from "~/_components/post_layout.tsx"
-import { Footer } from "~/_components/footer.tsx"
+import { DateRange } from "~/_components/date.tsx"
 
 export const layout = "base.tsx"
 export default ({ title, url, date, children }: Lume.Data, helpers: Lume.Helpers) => (
 	<>
-		<PostLayout
-			path={url}
-			date={date}
-			modifiedDate={date}
-			// modifiedDate={mod.modifiedDate ?? stat.mtime}
-			title={title ?? "목차"}
-		>
-			{children}
-		</PostLayout>
-		<Footer />
+		<header>
+			<h1>{title}</h1>
+			<DateRange date={date} modifiedDate={date} />
+		</header>
+		<main>{children}</main>
 	</>
 )

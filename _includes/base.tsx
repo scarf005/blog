@@ -1,10 +1,12 @@
-export default ({ title, children }: Lume.Data, {}: Lume.Helpers) => (
+import { Footer, Nav } from "~/_components/mod.ts"
+
+export default ({ title, children, url }: Lume.Data) => (
 	<html lang="ko">
 		<head>
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-			<title>{title}</title>
+			<title>{title ?? url}</title>
 			<meta property="og:title" content={title} />
 			<meta name="description" content={title} />
 
@@ -15,13 +17,14 @@ export default ({ title, children }: Lume.Data, {}: Lume.Helpers) => (
 
 			<link rel="icon" href="/assets/favicon.svg" />
 
-			{/* @ts-ignore: inline is lume plugin property */}
-			<link rel="stylesheet" inline href="/assets/style.css" />
-			{/* @ts-ignore: inline is lume plugin property */}
-			<link rel="stylesheet" inline href="/assets/url.css" />
+			<link rel="stylesheet" href="/assets/style.css" data-inline />
+			<link rel="stylesheet" href="/assets/url.css" data-inline />
 		</head>
 		<body>
+			<Nav href={url} />
+			<hr />
 			{children}
+			<Footer />
 			<script type="module" src="/assets/flamethrower/flamethrower.js"></script>
 		</body>
 	</html>

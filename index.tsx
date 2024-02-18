@@ -1,11 +1,16 @@
 import { toDate } from "~/_components/date.tsx"
+
+export const title = "목차"
 export const tags = ["meta"]
 
 type Props = { url: string; date: Date; title?: string }
 
 const Preview = ({ url, date, title }: Props) => (
 	<li>
-		<span>{toDate(date)}{" - "}</span>
+		<span>
+			<time datetime={toDate(date)}>{toDate(date)}</time>
+			{" - "}
+		</span>
 		<a href={url}>{title ?? url}</a>
 	</li>
 )
