@@ -100,8 +100,12 @@ h1 {
     margin-block-end: 0.25em;
 }
 
+nav,
+time {
+    font-family: monospace;
+}
+
 code {
-    font-family: inherit;
     color: var(--code-color);
 }
 
