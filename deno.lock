@@ -4,6 +4,7 @@
     "specifiers": {
       "npm:@js-temporal/polyfill@0.4.4": "npm:@js-temporal/polyfill@0.4.4",
       "npm:@mdx-js/mdx@3.0.1": "npm:@mdx-js/mdx@3.0.1",
+      "npm:highlight.js@11.9.0": "npm:highlight.js@11.9.0",
       "npm:markdown-it-attrs@4.1.6": "npm:markdown-it-attrs@4.1.6_markdown-it@14.0.0",
       "npm:markdown-it-deflist@3.0.0": "npm:markdown-it-deflist@3.0.0",
       "npm:markdown-it@14.0.0": "npm:markdown-it@14.0.0",
@@ -621,6 +622,10 @@
           "property-information": "property-information@6.4.1",
           "space-separated-tokens": "space-separated-tokens@2.0.2"
         }
+      },
+      "highlight.js@11.9.0": {
+        "integrity": "sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==",
+        "dependencies": {}
       },
       "html-void-elements@3.0.0": {
         "integrity": "sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==",
@@ -2337,6 +2342,7 @@
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/deps/front_matter.ts": "72ebfc664c7d5b1b02a2837f8b762e121a977e8598d8029fb7fdf4f80de68d4d",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/deps/fs.ts": "c2ce5d2d781ed12c11a382da71df90045ac508a0192ad5a5ae0672e48d4c28d2",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/deps/hex.ts": "5eec25aef0462cf1ea0f926e163568921876b6b8c884e5bf6c22d2a53a6a4bcd",
+    "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/deps/highlight.ts": "c9a1a6b055703d7240464dd276144e57b4d228356cc59a52012feb51b8bcbaa6",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/deps/http.ts": "ebf878a82b994fdcaf8e0e370ecef344afe0caa81b5722291edd6f570472fc0d",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/deps/jsonc.ts": "fe930b88d009ed6229a9a4238da2acd493835b1557e1927c863505689705728b",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/deps/log.ts": "9f14e484da5b23ad79d32bc5acd4a162c428859c95a57e46aa2ccb12659c9512",
@@ -2357,6 +2363,7 @@
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/middlewares/reload.ts": "c9999bdd52e18e85a1634659506542ce0e942cc91b69e3fc9887cabf23ca4592",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/middlewares/reload_client.js": "34d75e01503fae8180796de882af42b1125fac88f22a010a99d5548de1ba7d72",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/mod.ts": "79b72a3b7f102be55058682948f2f969a88d69f55cf5bcec7cc8cf9f06609c0f",
+    "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/plugins/code_highlight.ts": "bd4ef987c4fd05c1c585238a490f9f56d48daefd4748b4647219575b8e1d42c0",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/plugins/inline.ts": "7e861b0dd1e880d5715f5075b6dc7784caad79b2c13d08a9f3d016e796c29111",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/plugins/json.ts": "f6429bbd865e3666ef3385fd205fcc92df02ca2c0f74f20baa5c0798a81e1642",
     "https://raw.githubusercontent.com/lumeland/lume/cdd98e852c35eb539d6544af871457f0c4f2ed57/plugins/jsx_preact.ts": "57ecef22dc26f80ba7aa705688b0e13be71829941116518ab2db1167e39ddfb5",

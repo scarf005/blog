@@ -10,6 +10,7 @@
         --link-color: #077cae;
         --link-visited-color: #39383c;
         --code-color: #cf4919;
+        --pre-color: #e8e8e8;
     }
 }
 
@@ -20,6 +21,7 @@
         --link-color: #7bffa9;
         --link-visited-color: #f6cc95;
         --code-color: #f69077;
+        --pre-color: #989898;
     }
 }
 
@@ -103,6 +105,11 @@ h1 {
 nav,
 time {
     font-family: monospace;
+}
+
+pre {
+    border: 1px solid var(--pre-color);
+    overflow-y: scroll;
 }
 
 code {
