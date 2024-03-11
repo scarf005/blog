@@ -3,19 +3,7 @@
 	"deno.lint": true,
 	"deno.unstable": true,
 	"deno.config": "./deno.json",
-	"[json]": {
-		"editor.defaultFormatter": "denoland.vscode-deno"
-	},
-	"[jsonc]": {
-		"editor.defaultFormatter": "denoland.vscode-deno"
-	},
-	"[markdown]": {
-		"editor.defaultFormatter": "denoland.vscode-deno"
-	},
-	"[typescript]": {
-		"editor.defaultFormatter": "denoland.vscode-deno"
-	},
-	"[typescriptreact]": {
+	"[json][jsonc][markdown][typescript][typescriptreact]": {
 		"editor.defaultFormatter": "denoland.vscode-deno"
 	}
 }

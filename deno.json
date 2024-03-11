@@ -1,6 +1,6 @@
 {
 	"tasks": {
-		"lume": "echo \"import 'lume/cli.ts'\" | deno run --lock=deno.lock  --unstable -A -",
+		"lume": "deno run -A --unstable-hmr=_components/,_includes main.ts",
 		"build": "deno task lume",
 		"serve": "deno task lume -s"
 	},
