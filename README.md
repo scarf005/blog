@@ -1,3 +1,15 @@
+# Blog
+
+Personal blog.
+
+## Getting Started
+
+```sh
+$ git clone https://github.com/scarf005/blog
+$ cd blog
+$ deno task serve
+```
+
 ## License
 
 This project, including all files in this repository excluding otherwise noted, is licensed under the [AGPL-3.0-only](https://opensource.org/licenses/AGPL-3.0) license. See [LICENSE](./LICENSE) for details.
