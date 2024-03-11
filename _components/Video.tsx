@@ -1,7 +1,3 @@
 import type { JSX } from "preact"
 
-export const Video = (props: JSX.HTMLAttributes<HTMLSourceElement>) => (
-	<video controls>
-		<source {...props} />
-	</video>
-)
+export default ({ ...props }: JSX.HTMLAttributes<HTMLVideoElement>) => <video controls {...props} />
