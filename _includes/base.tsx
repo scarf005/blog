@@ -17,8 +17,8 @@ export default ({ title, children, url }: Lume.Data) => (
 
 			<link rel="icon" href="/assets/favicon.svg" />
 
-			<link rel="stylesheet" href="/assets/style.css" data-inline />
-			<link rel="stylesheet" href="/assets/url.css" data-inline />
+			<link rel="stylesheet" href="/assets/style.css" />
+			<link rel="stylesheet" href="/assets/url.css" />
 		</head>
 		<body>
 			<Nav href={url} />
