@@ -1,8 +1,7 @@
 {
 	"tasks": {
-		"lume": "deno run -A --unstable-hmr=_components/,_includes main.ts",
-		"build": "deno task lume",
-		"serve": "deno task lume -s"
+		"build": "deno run -A main.ts",
+		"serve": "deno run -A --unstable-hmr=_components/,_includes main.ts"
 	},
 	"fmt": {
 		"semiColons": false,
