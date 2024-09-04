@@ -21,5 +21,5 @@ tags:
 
 ### 연락처
 
-- <https://https://github.com/scarf005>
+- <https://github.com/scarf005>
 - <mailto:greenscarf005@gmail.com>
