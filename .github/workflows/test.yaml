@@ -56,4 +56,4 @@ jobs:
           deno-version: ${{ matrix.deno }}
 
       - name: Run unit tests on Deno
-        run: deno test --allow-none
+        run: deno test --permit-no-files
