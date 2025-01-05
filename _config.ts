@@ -31,4 +31,14 @@ site
 	.use(codeHighlight())
 	.use(relativeUrls())
 
+site.process([".html"], (pages) => {
+	pages.forEach((page) =>
+		page.document?.querySelectorAll("pre > code").forEach((code) => {
+			const button = page.document!.createElement("button")
+			button.className = "copy"
+			code.parentElement!.appendChild(button)
+		})
+	)
+})
+
 export default site
