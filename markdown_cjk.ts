@@ -17,7 +17,7 @@ export const link: Handler = (state: State, node: any) => {
 	const result = {
 		type: "element",
 		tagName: "a",
-		properties: properties,
+		properties,
 		children: state.all(node),
 	} as const
 
