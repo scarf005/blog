@@ -67,3 +67,7 @@ set -gx ANDROID_HOME /home/scarf/.local/share/android
 set -gx ASDF_CONFIG_FILE /home/scarf/.config/asdf/asdfrc
 set -gx ASDF_DATA_DIR /home/scarf/.local/share/asdf
 ```
+
+## 참고 자료
+
+- https://chatgpt.com/share/929ff744-e3f4-4ffd-9cb9-049ec3cb28d9

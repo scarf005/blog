@@ -13,10 +13,6 @@ jobs:
   lint_and_fmt:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        deno: [v1.x]
-
     steps:
       - uses: actions/checkout@v4
 
@@ -27,9 +23,7 @@ jobs:
           key: ${{ hashFiles('deno.lock') }}
 
       - name: Setup Deno
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: ${{ matrix.deno }}
+        uses: denoland/setup-deno@v2
 
       - name: Lint files
         run: deno lint
@@ -38,9 +32,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        deno: [v1.x, canary]
     steps:
       - uses: actions/checkout@v4
 
@@ -51,9 +42,7 @@ jobs:
           key: ${{ hashFiles('deno.lock') }}
 
       - name: Setup Deno
-        uses: denoland/setup-deno@v1
-        with:
-          deno-version: ${{ matrix.deno }}
+        uses: denoland/setup-deno@v2
 
       - name: Run unit tests on Deno
         run: deno test --permit-no-files
