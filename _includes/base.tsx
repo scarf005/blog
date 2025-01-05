@@ -27,6 +27,7 @@ export default ({ title, children, url }: Lume.Data) => (
 			{children}
 			<Footer />
 			<script type="module" src="/assets/flamethrower/flamethrower.js"></script>
+			<script type="module" src="/assets/clipboard.js"></script>
 		</body>
 	</html>
 )

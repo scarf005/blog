@@ -1,142 +1,142 @@
 :root {
-    --light: #ffffff;
-    --dark: #1c1b1bf4;
+	--light: #ffffff;
+	--dark: #1c1b1bf4;
 }
 
 @media (prefers-color-scheme: light) {
-    :root {
-        --text-color: var(--dark);
-        --bg-color: var(--light);
-        --link-color: #077cae;
-        --link-visited-color: #39383c;
-        --code-color: #cf4919;
-        --pre-color: #e8e8e8;
-    }
+	:root {
+		--text-color: var(--dark);
+		--bg-color: var(--light);
+		--link-color: #077cae;
+		--link-visited-color: #39383c;
+		--code-color: #cf4919;
+		--pre-color: #e8e8e8;
+	}
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        --text-color: var(--light);
-        --bg-color: var(--dark);
-        --link-color: #7bffa9;
-        --link-visited-color: #f6cc95;
-        --code-color: #f69077;
-        --pre-color: #989898;
-    }
+	:root {
+		--text-color: var(--light);
+		--bg-color: var(--dark);
+		--link-color: #7bffa9;
+		--link-visited-color: #f6cc95;
+		--code-color: #f69077;
+		--pre-color: #989898;
+	}
 }
 
 html {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 
-    word-break: keep-all;
-    color: var(--text-color);
-    background-color: var(--bg-color);
+	word-break: keep-all;
+	color: var(--text-color);
+	background-color: var(--bg-color);
 }
 
 body {
-    width: min(max(min(100vw, 400px), 75vw), 1400px);
-    box-sizing: border-box;
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
+	width: min(max(min(100vw, 400px), 75vw), 1400px);
+	box-sizing: border-box;
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
 
-    margin-top: 0;
-    margin-inline: auto;
-    padding: 0 10vw;
+	margin-top: 0;
+	margin-inline: auto;
+	padding: 0 10vw;
 }
 
 main {
-    margin-bottom: auto;
+	margin-bottom: auto;
 }
 
 footer {
-    margin: 0.8em auto;
-    font-size: 0.8em;
+	margin: 0.8em auto;
+	font-size: 0.8em;
 }
 
 hr {
-    margin: 0;
-    align-self: stretch;
+	margin: 0;
+	align-self: stretch;
 }
 
 section {
-    break-after: avoid;
-    break-before: avoid;
-    break-inside: avoid;
+	break-after: avoid;
+	break-before: avoid;
+	break-inside: avoid;
 }
 
 img,
 video {
-    max-inline-size: 100%;
-    max-block-size: 100%;
-    max-width: 100%;
-    object-fit: contain;
-    background: var(--bg-color);
-    display: block;
-    margin: 1.5em auto;
+	max-inline-size: 100%;
+	max-block-size: 100%;
+	max-width: 100%;
+	object-fit: contain;
+	background: var(--bg-color);
+	display: block;
+	margin: 1.5em auto;
 }
 
 video {
-    aspect-ratio: 16/9;
+	aspect-ratio: 16/9;
 }
 
 ul {
-    padding: 0;
-    list-style-position: inside;
-    display: flex;
-    flex-direction: column;
+	padding: 0;
+	list-style-position: inside;
+	display: flex;
+	flex-direction: column;
 }
 
 /* https://searchfox.org/mozilla-central/source/layout/style/res/html.css#172-173 */
 nav {
-    font-weight: bold;
-    font-size: 1.5em;
-    padding: 0;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
+	font-weight: bold;
+	font-size: 1.5em;
+	padding: 0;
+	margin-block-start: 0.67em;
+	margin-block-end: 0.67em;
 }
 
 h1 {
-    margin-block-end: 0.25em;
+	margin-block-end: 0.25em;
 }
 
 nav,
 time {
-    font-family: monospace;
+	font-family: monospace;
 }
 
 pre {
-    border: 1px solid var(--pre-color);
-    overflow-y: scroll;
+	border: 1px solid var(--pre-color);
+	overflow-y: scroll;
 }
 
 code {
-    color: var(--code-color);
+	color: var(--code-color);
 }
 
 a {
-    color: var(--link-color);
-    text-decoration-thickness: 0.075em;
-    text-decoration-line: underline;
+	color: var(--link-color);
+	text-decoration-thickness: 0.075em;
+	text-decoration-line: underline;
 }
 
 /*
  * style hovered anchors
  */
 a:hover:not(:has(img)) {
-    color: var(--bg-color);
-    background-color: var(--link-color);
+	color: var(--bg-color);
+	background-color: var(--link-color);
 }
 
 a:visited:not(:has(img)) {
-    color: var(--link-visited-color);
+	color: var(--link-visited-color);
 }
 
 a:visited:hover {
-    color: var(--bg-color);
-    background-color: var(--link-visited-color);
+	color: var(--bg-color);
+	background-color: var(--link-visited-color);
 }
 
 /*
@@ -145,75 +145,107 @@ a:visited:hover {
 
 /* 1. SELECT all links */
 nav:has(a:hover) a {
-    color: var(--bg-color);
-    background-color: var(--link-color);
+	color: var(--bg-color);
+	background-color: var(--link-color);
 }
 
 nav:has(a:hover) a:visited {
-    background-color: var(--link-visited-color);
+	background-color: var(--link-visited-color);
 }
 
 /* 2. UNSELECT links that are after hovered one */
 nav a:hover ~ a {
-    color: var(--link-color);
-    background-color: var(--bg-color);
+	color: var(--link-color);
+	background-color: var(--bg-color);
 }
 
 nav a:hover ~ a:visited {
-    color: var(--link-visited-color);
-    background-color: var(--bg-color);
+	color: var(--link-visited-color);
+	background-color: var(--bg-color);
 }
 
 /*
  * anchor with code
  */
 a:hover code {
-    color: var(--bg-color);
-    background-color: var(--code-color);
+	color: var(--bg-color);
+	background-color: var(--code-color);
 }
 
 a:has(code) {
-    text-decoration-color: var(--code-color);
+	text-decoration-color: var(--code-color);
 }
 
 a:hover:has(code) {
-    text-decoration-color: var(--bg-color);
+	text-decoration-color: var(--bg-color);
 }
 
 a:hover code {
-    color: var(--bg-color);
-    background-color: var(--code-color);
+	color: var(--bg-color);
+	background-color: var(--code-color);
 }
 
 a:has(code) {
-    text-decoration-color: var(--code-color);
+	text-decoration-color: var(--code-color);
 }
 
 a:hover:has(code) {
-    text-decoration-color: var(--bg-color);
+	text-decoration-color: var(--bg-color);
 }
 
 @media (width < 600px) {
-    body {
-        word-break: break-all;
-    }
+	body {
+		word-break: break-all;
+	}
 }
 
 @media (width < 500px) {
-    ul li span {
-        display: none;
-    }
+	ul li span {
+		display: none;
+	}
 }
 
 @media print {
-    nav,
+	nav,
 	nav ~ hr,
-    footer,
-    video {
-        display: none;
-    }
+	footer,
+	video {
+		display: none;
+	}
 
-    img {
-        max-width: 50%;
-    }
+	img {
+		max-width: 50%;
+	}
+}
+
+pre {
+	display: flex;
+	gap: 0.5rem;
+}
+
+button.copy {
+	--icon-size: 1.5rem;
+	--icon-container-size: calc(0.75rem + var(--icon-size));
+	width: var(--icon-container-size);
+	height: var(--icon-container-size);
+	margin-left: auto;
+	background-image: url("/assets/icons/github-copy.svg");
+	background-repeat: no-repeat;
+	padding-left: var(--icon-size);
+	background-size: var(--icon-size);
+	height: 2.5em;
+	background-position-y: 50%;
+	background-position-x: 50%;
+	background-color: transparent;
+	border: unset;
+}
+
+button.copy:hover {
+	background-color: var(--pre-color);
+}
+
+button.copy.copied {
+	background-image: url("/assets/icons/github-check.svg");
+	background-color: #7bffa990;
+	background-position-y: 40%;
 }
