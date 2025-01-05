@@ -154,12 +154,12 @@ nav:has(a:hover) a:visited {
 }
 
 /* 2. UNSELECT links that are after hovered one */
-nav a:hover~a {
+nav a:hover ~ a {
     color: var(--link-color);
     background-color: var(--bg-color);
 }
 
-nav a:hover~a:visited {
+nav a:hover ~ a:visited {
     color: var(--link-visited-color);
     background-color: var(--bg-color);
 }
@@ -206,9 +206,8 @@ a:hover:has(code) {
 }
 
 @media print {
-
     nav,
-    nav~hr,
+	nav ~ hr,
     footer,
     video {
         display: none;
