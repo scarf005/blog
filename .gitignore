@@ -1,3 +1,7 @@
 _site
 _cache
 media
+
+.bsp
+.metals
+.scala-build

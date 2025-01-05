@@ -16,7 +16,7 @@ const mdOption = {
 	rehypeOptions: { handlers: { link } },
 }
 
-const site = lume({ prettyUrls: false })
+const site = lume({ prettyUrls: false, watcher: { ignore: [".metals", ".git"] } })
 
 site
 	.copy([".css"])
