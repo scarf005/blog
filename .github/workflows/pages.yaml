@@ -1,47 +1,47 @@
 name: Publish on GitHub Pages
 
 on:
-  push:
-    branches: [ main ]
+    push:
+        branches: [main]
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+    contents: read
+    pages: write
+    id-token: write
 
 concurrency: pages
 
 env:
-  DENO_DIR: /home/runner/.cache/deno
+    DENO_DIR: /home/runner/.cache/deno
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
+        steps:
+            - name: Clone repository
+              uses: actions/checkout@v4
 
-      - name: Cache Deno dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.DENO_DIR }}
-          key: ${{ hashFiles('deno.lock') }}
+            - name: Cache Deno dependencies
+              uses: actions/cache@v4
+              with:
+                  path: ${{ env.DENO_DIR }}
+                  key: ${{ hashFiles('deno.lock') }}
 
-      - name: Setup Deno environment
-        uses: denoland/setup-deno@v2.0.0
+            - name: Setup Deno environment
+              uses: denoland/setup-deno@v2.0.0
 
-      - name: Build site
-        run: deno task build
+            - name: Build site
+              run: deno task build
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+            - name: Setup Pages
+              uses: actions/configure-pages@v5
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '_site'
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: "_site"
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
