@@ -1,6 +1,15 @@
 import { Footer, Nav } from "~/_components/mod.ts"
 
-export default ({ title, children, url }: Lume.Data) => (
+declare global {
+	namespace Lume {
+		interface Data {
+			// description of the page
+			description?: string
+		}
+	}
+}
+
+export default ({ title, description, children, url }: Lume.Data) => (
 	<html lang="ko">
 		<head>
 			<meta charset="utf-8" />
@@ -8,7 +17,9 @@ export default ({ title, children, url }: Lume.Data) => (
 
 			<title>{title ?? url}</title>
 			<meta property="og:title" content={title} />
-			<meta name="description" content={title} />
+			<meta property="og:type" content="website" />
+			<meta property="og:description" content={description ?? title} />
+			<meta name="description" content={description ?? title} />
 
 			<meta lang="ko" />
 			<meta property="og:locale" content="ko" />
