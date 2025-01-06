@@ -31,6 +31,10 @@ export default ({ title, description, children, url }: Lume.Data) => (
 			<link rel="stylesheet" href="/assets/style.css" />
 			<link rel="stylesheet" href="/assets/url.css" />
 			<link rel="stylesheet" href="/assets/highlight.css" />
+
+			<noscript>
+				<link rel="stylesheet" href="/assets/noscript.css" />
+			</noscript>
 		</head>
 		<body>
 			<Nav href={url} />
