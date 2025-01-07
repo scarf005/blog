@@ -196,6 +196,7 @@ a:hover:has(code) {
 @media (width < 600px) {
 	body {
 		word-break: break-all;
+		padding: 0 5vw;
 	}
 }
 
