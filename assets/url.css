@@ -8,6 +8,15 @@ a[href]:not([data-no-icon]) {
 	background-position-y: 70%;
 }
 
+a[aria-hidden]:not(:hover) {
+	--icon: none;
+}
+a[aria-hidden] {
+	margin-left: -1em;
+	background-color: unset;
+	color: unset;
+}
+
 @layer link {
 	a[href] {
 		--icon: url("/assets/icons/github-file-symlink-file.svg");
@@ -15,6 +24,7 @@ a[href]:not([data-no-icon]) {
 }
 
 @layer base {
+	a[aria-hidden],
 	a[href^="https://"] {
 		--icon: url("/assets/icons/github-link.svg");
 	}
