@@ -125,7 +125,7 @@ a {
 /*
  * style hovered anchors
  */
-a:hover:not(:has(img)) {
+a:hover:not(:is(:has(img), [aria-hidden])) {
 	color: var(--bg-color);
 	background-color: var(--link-color);
 }
@@ -191,6 +191,10 @@ a:has(code) {
 
 a:hover:has(code) {
 	text-decoration-color: var(--bg-color);
+}
+
+a[aria-hidden] {
+	color: unset;
 }
 
 @media (width < 600px) {
