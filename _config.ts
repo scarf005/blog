@@ -5,6 +5,7 @@ import codeHighlight from "lume/plugins/code_highlight.ts"
 
 import jsx from "lume/plugins/jsx_preact.ts"
 import mdx from "lume/plugins/mdx.ts"
+import redirects from "lume/plugins/redirects.ts"
 
 import remark from "lume/plugins/remark.ts"
 import rehypeSlug from "https://esm.sh/rehype-slug@6.0.0"
@@ -30,13 +31,14 @@ site
 	.use(mdx(mdOption))
 	.use(codeHighlight())
 	.use(relativeUrls())
+	.use(redirects())
 
 site.process([".html"], (pages) => {
 	pages.forEach((page) =>
 		page.document?.querySelectorAll("pre > code").forEach((code) => {
 			const button = page.document!.createElement("button")
 			button.className = "copy"
-            button.setAttribute("aria-label", "Copy to clipboard")
+			button.setAttribute("aria-label", "Copy to clipboard")
 			code.parentElement!.appendChild(button)
 		})
 	)
