@@ -1,6 +1,7 @@
 import lume from "lume/mod.ts"
 
 import relativeUrls from "lume/plugins/relative_urls.ts"
+import resolveUrls from "lume/plugins/resolve_urls.ts"
 import codeHighlight from "lume/plugins/code_highlight.ts"
 
 import jsx from "lume/plugins/jsx_preact.ts"
@@ -31,6 +32,7 @@ site
 	.use(mdx(mdOption))
 	.use(codeHighlight())
 	.use(relativeUrls())
+	.use(resolveUrls())
 	.use(redirects())
 
 site.process([".html"], (pages) => {
