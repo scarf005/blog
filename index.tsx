@@ -12,7 +12,7 @@ const Preview = ({ url, date, title }: Props) => (
 			<time datetime={toDate(date)}>{toDate(date)}</time>
 			{" - "}
 		</span>
-		<a href={url}>{title ?? url}</a>
+		<a href={url} data-no-icon>{title ?? url}</a>
 	</li>
 )
 

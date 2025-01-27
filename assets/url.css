@@ -1,5 +1,6 @@
-a[href^="https://"],
-a[href^="mailto:"] {
+@layer link, base;
+
+a[href]:not([data-no-icon]) {
 	padding-left: 1.15em;
 	background-image: var(--icon);
 	background-repeat: no-repeat;
@@ -7,8 +8,16 @@ a[href^="mailto:"] {
 	background-position-y: 70%;
 }
 
-a[href^="https://"] {
-	--icon: url("/assets/icons/github-link.svg");
+@layer link {
+	a[href] {
+		--icon: url("/assets/icons/github-file-symlink-file.svg");
+	}
+}
+
+@layer base {
+	a[href^="https://"] {
+		--icon: url("/assets/icons/github-link.svg");
+	}
 }
 
 a[href^="mailto:"] {
