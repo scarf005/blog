@@ -16,7 +16,7 @@ import { link } from "./markdown_cjk.ts"
 const mdOption = {
 	rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
 	rehypeOptions: { handlers: { link } },
-}
+} satisfies Parameters<typeof remark>[0]
 
 const site = lume({ prettyUrls: false, watcher: { ignore: [".metals", ".git"] } })
 
