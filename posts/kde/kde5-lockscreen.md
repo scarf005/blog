@@ -1,6 +1,7 @@
 ---
 date: 2024-03-05
-title: KDE 잠금화면 흔들림 제거
+title: KDE 5 잠금화면 흔들림 제거
+oldUrl: /etc/kde-lockscreen.html
 ---
 
 <video controls loop src="https://github.com/scarf005/blog/assets/54838975/16c977be-1a6b-4f3b-b243-763f6b0f158d"></video>
