@@ -2,6 +2,7 @@
   "version": "4",
   "specifiers": {
     "jsr:@davidbonnet/astring@1.8.6": "1.8.6",
+    "jsr:@std/assert@*": "1.0.11",
     "jsr:@std/cli@1.0.8": "1.0.8",
     "jsr:@std/cli@^1.0.8": "1.0.8",
     "jsr:@std/collections@^1.0.9": "1.0.10",
@@ -16,6 +17,7 @@
     "jsr:@std/html@1.0.3": "1.0.3",
     "jsr:@std/html@^1.0.3": "1.0.3",
     "jsr:@std/http@1.0.12": "1.0.12",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/io@0.225": "0.225.1",
     "jsr:@std/json@1": "1.0.1",
     "jsr:@std/jsonc@1.0.1": "1.0.1",
@@ -56,6 +58,12 @@
   "jsr": {
     "@davidbonnet/astring@1.8.6": {
       "integrity": "98b4914c8863cdf8c0ff83bb5c528caa67a8dca6020ad6234113499f00583e3a"
+    },
+    "@std/assert@1.0.11": {
+      "integrity": "2461ef3c368fe88bc60e186e7744a93112f16fd110022e113a0849e94d1c83c1",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
     },
     "@std/cli@1.0.8": {
       "integrity": "3762d8dc9a373715c08d871c38d45e637b25266f013a1d0bbe560bca409de94e"
@@ -100,6 +108,9 @@
         "jsr:@std/path@^1.0.8",
         "jsr:@std/streams"
       ]
+    },
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
     },
     "@std/io@0.225.1": {
       "integrity": "0a055fa523288d596f09ba11af5e006f17cecc75bab949b233ceba7eba40293e"
@@ -1646,6 +1657,7 @@
     "https://esm.sh/hast-util-is-element@3.0.0?target=denonext": "5b0ad62acc8ca4644c21275804720f23c534613120fc9ce9ce6289b3d1019d10",
     "https://esm.sh/hast-util-to-string@3.0.1/denonext/hast-util-to-string.mjs": "fc944b16b8c609c632097122415b01e74a6bb6f6183eaf8911ad6b4435fbe1b7",
     "https://esm.sh/hast-util-to-string@3.0.1?target=denonext": "7eb0951e646dee20ddb56f741eb99306059f3dc84c5b68ef2478fa8059d2b6db",
+    "https://esm.sh/preact@10.19.5": "c370cfcd0632be0b96888f12e05d4d91d9b43613d095a3a960d75d305367035e",
     "https://esm.sh/preact@10.19.5/denonext/jsx-runtime.mjs": "6b56e388060a0f0b00c2d0671d78f764dadd25ffcd813d88e11472916dfe597c",
     "https://esm.sh/preact@10.19.5/denonext/preact.mjs": "cdbd2af1158ccbc64175b314e3bebd2523b42f7fcd2e671bb5166ba3c4fa856f",
     "https://esm.sh/preact@10.19.5/jsx-runtime": "7458f51b6c13d9f4a3f81b135e6952ca891aba2f7face63aad4c7a30e142971d",
