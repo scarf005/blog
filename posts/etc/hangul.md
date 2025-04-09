@@ -33,6 +33,16 @@ echo $XMODIFIERS $LANG
 
 참고: <https://wiki.archlinux.org/title/Fcitx5#XIM>
 
+## distrobox에서 설치한 프로그램에서 한글 입력이 되지 않음
+
+- 원인: distrobox 컨테이너에서는 호스트의 입력기 시스템 패키지(ibus, fcitx...)에 접근할 수 없음
+- 해결: distrobox 컨테이너 내부에 입력기 시스템 패키지 설치
+
+```sh
+$ distrobox enter <YOUR-CONTAINER-NAME>
+$ sudo dnf install fcitx5 fcitx5-hangul
+```
+
 ## `ㄱㅅ` 누르면 `ㄳ`, `ㄱㄱ` 누르면 `ㄲ` 되는 현상 방지
 
 - 원인: [libhangul](https://github.com/libhangul/libhangul) 배포가 10년 넘게 (2011) 되지 않아 [해당 설정을 끄는 API를 사용할 수 없음](https://github.com/fcitx/fcitx5-hangul/issues/12#issuecomment-2341205900)
