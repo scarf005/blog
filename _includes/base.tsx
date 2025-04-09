@@ -1,4 +1,5 @@
 import { Footer, Nav } from "~/_components/mod.ts"
+import { isNakedCssDay, NakedCSS } from "../_components/naked_css.tsx"
 
 declare global {
 	namespace Lume {
@@ -28,19 +29,24 @@ export default ({ title, description, children, url }: Lume.Data) => (
 
 			<link rel="icon" href="/assets/favicon.svg" />
 
-			<link rel="stylesheet" href="/assets/style.css" />
-			<link rel="stylesheet" href="/assets/url.css" />
-			<link rel="stylesheet" href="/assets/highlight.css" />
-
-			<noscript>
-				<link rel="stylesheet" href="/assets/noscript.css" />
-			</noscript>
+			{isNakedCssDay(new Date()) ? undefined : (
+				<>
+					<link rel="stylesheet" href="/assets/style.css" />
+					<link rel="stylesheet" href="/assets/url.css" />
+					<link rel="stylesheet" href="/assets/highlight.css" />
+					<noscript>
+						<link rel="stylesheet" href="/assets/noscript.css" />
+					</noscript>
+				</>
+			)}
 		</head>
 		<body>
 			<Nav href={url} />
 			<hr />
 			{children}
-			<Footer />
+			<Footer>
+				{isNakedCssDay(new Date()) ? <NakedCSS /> : undefined}
+			</Footer>
 			<script type="module" src="/assets/flamethrower/flamethrower.js"></script>
 			<script type="module" src="/assets/clipboard.js"></script>
 		</body>
