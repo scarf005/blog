@@ -1,4 +1,4 @@
-import { assertEquals } from "$std/assert/assert_equals.ts"
+import { assertEquals } from "@std/assert"
 
 const decoder = new TextDecoder()
 export const fetchTitle = async (res: Response) => {

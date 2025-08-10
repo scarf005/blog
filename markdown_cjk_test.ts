@@ -1,13 +1,13 @@
 import { VFile } from "https://esm.sh/vfile@6.0.1"
 
-import { unified } from "npm:unified@11.0.4"
+import { unified } from "npm:unified@11.0.5"
 import { rehypeStringify, remarkParse, remarkRehype } from "lume/deps/remark.ts"
 
 import { fromMarkdown } from "npm:mdast-util-from-markdown@2.0.0"
 import { toHast } from "npm:mdast-util-to-hast@13.1.0"
 
 import { link } from "./markdown_cjk.ts"
-import { assertEquals } from "$std/assert/assert_equals.ts"
+import { assertEquals } from "@std/assert"
 
 const text = `[](#한글)`
 

@@ -1,5 +1,5 @@
 import { toDate } from "~/_components/mod.ts"
-import { dirname } from "$std/path/dirname.ts"
+import { dirname } from "@std/path"
 
 export const title = "목차"
 export const tags = ["meta"]
@@ -30,6 +30,6 @@ export default function* ({ url, search }: Lume.Data): PageGenerator {
 	yield* Object.entries(groups).map(([category, pages]) => ({
 		url: `${category}/index.html`,
 		title: category.replace("/", ""),
-		content: <ul>{pages!.map(Preview)}</ul>,
+		content: <ul>{(pages ?? []).map(Preview)}</ul>,
 	}))
 }

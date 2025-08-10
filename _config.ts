@@ -4,7 +4,7 @@ import relativeUrls from "lume/plugins/relative_urls.ts"
 import resolveUrls from "lume/plugins/resolve_urls.ts"
 import codeHighlight from "lume/plugins/code_highlight.ts"
 
-import jsx from "lume/plugins/jsx_preact.ts"
+import jsx from "lume/plugins/jsx.ts"
 import mdx from "lume/plugins/mdx.ts"
 import redirects from "lume/plugins/redirects.ts"
 
@@ -40,10 +40,10 @@ site.process([".html"], (pages) => {
 	if (isNakedCssDay(new Date())) return
 	pages.forEach((page) =>
 		page.document?.querySelectorAll("pre > code").forEach((code) => {
-			const button = page.document!.createElement("button")
+			const button = page.document.createElement("button")
 			button.className = "copy"
 			button.setAttribute("aria-label", "Copy to clipboard")
-			code.parentElement!.appendChild(button)
+			code.parentElement?.appendChild(button)
 		})
 	)
 })

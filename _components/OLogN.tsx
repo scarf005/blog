@@ -1,6 +1,6 @@
 // @ts-nocheck: mathml types not defined yet
 
-export const OLogN = () => (
+export default () => (
 	<math>
 		<mi>O</mi>
 		<mo>(</mo>
