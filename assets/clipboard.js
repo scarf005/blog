@@ -12,7 +12,7 @@ document.querySelectorAll("button.copy").forEach((button) => {
 		if (!code) return
 		navigator.clipboard.writeText(trimNonPastable(code)).then(() => {
 			button.classList.add(copied)
-			setTimeout(() => button.classList.remove(copied), 2000)
+			setTimeout(() => button.classList.remove(copied), 1000)
 		}).catch((err) => console.error("Failed to copy:", err))
 	})
 })

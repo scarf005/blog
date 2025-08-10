@@ -251,6 +251,6 @@ button.copy:hover {
 
 button.copy.copied {
 	background-image: url("/assets/icons/github-check.svg");
-	background-color: #7bffa990;
+	border: 1px solid #7bffa9;
 	background-position-y: 40%;
 }
