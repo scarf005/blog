@@ -29,13 +29,16 @@ site
 	.data("layout", "_includes/post.tsx")
 
 site
+	.add([".webp", ".svg", ".ico", ".png", ".jpg", ".jpeg", ".webm", ".mp4"])
+
+site
 	.use(jsx())
 	.use(remark(mdOption))
 	.use(mdx(mdOption))
 	.use(codeHighlight())
-	.use(relativeUrls())
 	.use(resolveUrls())
 	.use(redirects())
+	.use(relativeUrls())
 
 if (!isNakedCssDay(new Date())) {
 	site.use(copyButton())
