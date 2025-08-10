@@ -12,7 +12,8 @@ import remark from "lume/plugins/remark.ts"
 import rehypeSlug from "https://esm.sh/rehype-slug@6.0.0"
 import rehypeAutolinkHeadings from "https://esm.sh/rehype-autolink-headings@7.1.0"
 import { link } from "./markdown_cjk.ts"
-import { isNakedCssDay } from "~/_components/naked_css.tsx"
+import { copyButton } from "./copy_button.ts"
+import { isNakedCssDay } from "./_components/naked_css.tsx"
 
 const mdOption = {
 	rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
@@ -36,16 +37,8 @@ site
 	.use(resolveUrls())
 	.use(redirects())
 
-site.process([".html"], (pages) => {
-	if (isNakedCssDay(new Date())) return
-	pages.forEach((page) =>
-		page.document?.querySelectorAll("pre > code").forEach((code) => {
-			const button = page.document.createElement("button")
-			button.className = "copy"
-			button.setAttribute("aria-label", "Copy to clipboard")
-			code.parentElement?.appendChild(button)
-		})
-	)
-})
+if (!isNakedCssDay(new Date())) {
+	site.use(copyButton())
+}
 
 export default site
