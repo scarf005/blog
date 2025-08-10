@@ -12,5 +12,8 @@
 	"[typescriptreact]": { "editor.defaultFormatter": "denoland.vscode-deno" },
 	"files.watcherExclude": {
 		"**/target": true
+	},
+	"explorer.fileNesting.patterns": {
+		"*.md": "${capture}.*.webp"
 	}
 }
