@@ -6,8 +6,8 @@ description: fcitx 환경에서 스팀과 기타등등에 한글 입력하기
 
 ### 환경
 
-- Fedora 41 (Kinoite)
-- KDE Plasma 6.2.4
+- Fedora 42 (Kinoite)
+- KDE Plasma 6.4.3
 - fcitx5 && fcitx5-hangul
 
 ## 스팀과 스팀 게임에서 한글 입력 사용
@@ -32,6 +32,28 @@ echo $XMODIFIERS $LANG
 ```
 
 참고: <https://wiki.archlinux.org/title/Fcitx5#XIM>
+
+## flatpak 앱에서 한글 입력
+
+![](./hangul.kde-open-image.webp)
+
+- 원인: QT 앱에서는 `QT_IM_MODULE` 환경 변수를 설정해야 한글 입력 가능
+- 해결: `/etc/environment`에 `QT_IM_MODULE` 설정
+
+```sh
+YOUR_INPUT_METHOD=fcitx # ibus 등 다른 입력기를 사용할 시 변경
+
+echo "QT_IM_MODULE=$YOUR_INPUT_METHOD" | sudo tee -a /etc/environment
+```
+
+로그아웃 후 로그인하여 다음과 같이 뜨면 성공:
+
+```sh
+echo $QT_IM_MODULE
+> fcitx
+```
+
+참고: <https://krita-artists.org/t/i-just-cant-use-ime-to-type-texts-on-linux/113246/2>
 
 ## distrobox에서 설치한 프로그램에서 한글 입력이 되지 않음
 
