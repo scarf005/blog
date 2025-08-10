@@ -6,9 +6,6 @@ on:
     pull_request:
         branches: [main]
 
-env:
-    DENO_DIR: /home/runner/.cache/deno
-
 jobs:
     lint_and_fmt:
         runs-on: ubuntu-latest
@@ -16,14 +13,9 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - name: Cache Deno dependencies
-              uses: actions/cache/restore@v4
-              with:
-                  path: ${{ env.DENO_DIR }}
-                  key: ${{ hashFiles('deno.lock') }}
-
             - name: Setup Deno
               uses: denoland/setup-deno@v2
+              with: { cache: true }
 
             - name: Lint files
               run: deno lint
@@ -35,14 +27,9 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - name: Cache Deno dependencies
-              uses: actions/cache/restore@v4
-              with:
-                  path: ${{ env.DENO_DIR }}
-                  key: ${{ hashFiles('deno.lock') }}
-
             - name: Setup Deno
               uses: denoland/setup-deno@v2
+              with: { cache: true }
 
             - name: Run unit tests on Deno
               run: deno test --permit-no-files
