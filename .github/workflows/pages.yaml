@@ -19,6 +19,8 @@ jobs:
         steps:
             - name: Clone repository
               uses: actions/checkout@v4
+              with:
+                  fetch-depth: 2147483647 # https://stackoverflow.com/a/6802238
 
             - name: Setup Deno environment
               uses: denoland/setup-deno@v2
