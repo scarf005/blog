@@ -11,7 +11,7 @@ import { assertEquals } from "@std/assert"
 
 const text = `[](#한글)`
 
-const toHTML = () =>
+const toHTML = (): Promise<VFile> =>
 	unified()
 		.use(remarkParse)
 		.use(remarkRehype, { handlers: { link } })
