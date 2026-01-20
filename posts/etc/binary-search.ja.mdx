@@ -1,0 +1,28 @@
+---
+lang: ja
+date: 2023-11-12
+title: "生活に役立つ二分探索"
+---
+
+使っているツールでエラーが出ると、原因調査に丸一日かかることがある。ところが原因は驚くほど簡単な場合が多い。数学の力で時間を節約できないだろうか？二分探索を使えばいい。<comp.OLogN /> 時間で原因を見つけられる。
+
+## [Git Bisect](https://git-scm.com/docs/git-bisect)
+
+gitで作業するときは[最小単位でのコミット](https://en.wikipedia.org/wiki/Atomic_commit)が便利だ。`git bisect` が使えるからだ。
+
+<img
+  alt="順番が混ざったゲームメニューのスクリーンショット"
+  src="https://user-images.githubusercontent.com/54838975/238132943-97b2b10a-0397-4991-b57c-d445fb2ac099.png"
+/>
+
+[メニュー順がバラバラになる問題](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2823)を直したことがある。二分探索で問題のコミットを30分で見つけた。`vector` を `set` に変えたのが原因だった。コミット数が多くてGPTに聞くのに時間がかかった。もっと小さく切ればよかった。
+
+## [VSCode Extension Bisect](https://code.visualstudio.com/blogs/2021/02/16/extension-bisect)
+
+<comp.Video src="https://user-images.githubusercontent.com/54838975/282286276-a90d208a-2cfa-4819-8f9e-ece12f6354c9.mp4" />
+
+前日から韓国語入力のたびに入力欄が重なる問題が起き、再起動やIMEの変更を試したが直らなかった。そこでVSCodeで拡張機能の二分探索ができることを思い出した。
+
+![](https://user-images.githubusercontent.com/54838975/282285995-4736db8a-e40c-4989-aab9-a0619ad55111.png)
+
+原因は最後に入れた拡張機能がIMEと衝突していたことだった。削除したら直った。

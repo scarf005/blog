@@ -4,10 +4,8 @@
  * @see https://css-naked-day.org
  */
 export const isNakedCssDay = (date: Date) =>
-	date >= new Date(`${thisYear}-04-08T10:00:00Z`) &&
-	date <= new Date(`${thisYear}-04-10T12:00:00Z`)
-
-const thisYear = new Date().getFullYear()
+	date >= new Date(`${date.getUTCFullYear()}-04-08T10:00:00Z`) &&
+	date <= new Date(`${date.getUTCFullYear()}-04-10T12:00:00Z`)
 
 export const NakedCSS = () => (
 	<p>

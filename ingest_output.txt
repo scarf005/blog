@@ -1,0 +1,710 @@
+# Repository Digest
+Generated: 2025-12-23T01:20:48.628Z
+
+
+Directory Structure:
+├── _data.ts
+├── etc/
+│   ├── binary-search.mdx
+│   ├── hangul.md
+│   ├── hm-session-vars.md
+│   └── nvidia_suspend.md
+├── kde/
+│   ├── kde5-lockscreen.md
+│   ├── kde6-lockscreen.md
+│   └── kinoite-sddm.md
+├── scarf005.en.md
+├── scarf005.md
+└── www/
+    ├── css.md
+    └── relay-devtools.md
+
+
+## File: posts/_data.ts
+
+export const layout = "post.tsx"
+export const basename = "/"
+export const tags = ["post"]
+
+
+## File: posts/etc/binary-search.mdx
+
+---
+date: 2023-11-12
+title: "생활에 도움이 되는 이진 탐색"
+---
+
+쓰던 도구에 오류가 나면 해결하느라 하루를 꼬박 낭비하게 된다. 그런데 원인은 놀랄 만큼 간단한 경우가 많다. 수학의 힘을 써서 시간을 아낄 방법이 없을까? 이진 탐색을 쓰면 된다. <comp.OLogN /> 시간 안에 원인을 찾을 수 있다.
+
+## [Git Bisect](https://git-scm.com/docs/git-bisect)
+
+git으로 작업할 때 [최소 단위별로 커밋](https://en.wikipedia.org/wiki/Atomic_commit) 하면 좋다. `git bisect` 를 쓸 수 있기 때문이다.
+
+<img
+  alt="순서가 섞인 게임 메뉴 스크린샷"
+  src="https://user-images.githubusercontent.com/54838975/238132943-97b2b10a-0397-4991-b57c-d445fb2ac099.png"
+/>
+
+[메뉴 순서가 제멋대로 섞이는 문제](https://github.com/cataclysmbnteam/Cataclysm-BN/pull/2823)를 해결한 적이 있다. 이진 탐색으로 문제 커밋을 30분 만에 발견했다. [`vector`](https://en.cppreference.com/w/cpp/container/vector) 를 [`set`](https://en.cppreference.com/w/cpp/container/set)으로 바꾼 것이 원인이었다. 커밋 내역이 많아 GPT에게 물어보느라 시간이 걸렸다. 개별 커밋 크기를 줄였다면 좋았을 것이다.
+
+## [VSCode Extension Bisect](https://code.visualstudio.com/blogs/2021/02/16/extension-bisect)
+
+<comp.Video src="https://user-images.githubusercontent.com/54838975/282286276-a90d208a-2cfa-4819-8f9e-ece12f6354c9.mp4" />
+
+하루 전부터 한글 입력때마다 입력창이 겹쳐 재부팅도 해 보고, 입력기도 바꾸어 보았으나 해결되지 않아 고민하던 차에 VSCode에서 확장 프로그램을 이진 탐색할수 있다는 것이 떠올랐다.
+
+![](https://user-images.githubusercontent.com/54838975/282285995-4736db8a-e40c-4989-aab9-a0619ad55111.png)
+
+원인은 마지막에 설치한 확장 프로그램이 입력기와 충돌을 일으켜서였다. 지우고 나니 멀쩡해졌다.
+
+
+## File: posts/etc/hangul.md
+
+---
+date: 2025-01-05
+title: 냉혹한 리눅스 한글 입력의 세계
+description: fcitx 환경에서 스팀과 기타등등에 한글 입력하기
+---
+
+### 환경
+
+- Fedora 42 (Kinoite)
+- KDE Plasma 6.4.3
+- fcitx5 && fcitx5-hangul
+
+## 스팀과 스팀 게임에서 한글 입력 사용
+
+<video width="460" height="93" autoplay controls loop src="https://github.com/user-attachments/assets/1291f0c8-f812-41d6-a31e-92bbdeef460c"></video>
+
+- 원인: X11 앱에서는 [XIM](https://en.wikipedia.org/wiki/X_Input_Method)을 써야 한글 입력 가능
+- 해결: `XMODIFIERS` 환경 변수 설정
+
+```sh
+YOUR_INPUT_METHOD=fcitx # ibus 등 다른 입력기를 사용할 시 변경
+
+
+echo "XMODIFIERS=@im=$YOUR_INPUT_METHOD" | sudo tee -a /etc/environment
+```
+
+로그아웃 후 로그인하여 다음과 같이 뜨면 성공:
+
+```sh
+echo $XMODIFIERS $LANG
+> @im=fcitx ko_KR.UTF-8
+```
+
+참고: <https://wiki.archlinux.org/title/Fcitx5#XIM>
+
+## flatpak 앱에서 한글 입력
+
+![](./hangul.kde-open-image.webp)
+
+- 원인: QT 앱에서는 `QT_IM_MODULE` 환경 변수를 설정해야 한글 입력 가능
+- 해결: `/etc/environment`에 `QT_IM_MODULE` 설정
+
+```sh
+YOUR_INPUT_METHOD=fcitx # ibus 등 다른 입력기를 사용할 시 변경
+
+echo "QT_IM_MODULE=$YOUR_INPUT_METHOD" | sudo tee -a /etc/environment
+```
+
+로그아웃 후 로그인하여 다음과 같이 뜨면 성공:
+
+```sh
+echo $QT_IM_MODULE
+> fcitx
+```
+
+참고: <https://krita-artists.org/t/i-just-cant-use-ime-to-type-texts-on-linux/113246/2>
+
+## distrobox에서 설치한 프로그램에서 한글 입력이 되지 않음
+
+- 원인: distrobox 컨테이너에서는 호스트의 입력기 시스템 패키지(ibus, fcitx...)에 접근할 수 없음
+- 해결: distrobox 컨테이너 내부에 입력기 시스템 패키지 설치
+
+```sh
+$ distrobox enter <YOUR-CONTAINER-NAME>
+$ sudo dnf install fcitx5 fcitx5-hangul
+```
+
+## `ㄱㅅ` 누르면 `ㄳ`, `ㄱㄱ` 누르면 `ㄲ` 되는 현상 방지
+
+- 원인: [libhangul](https://github.com/libhangul/libhangul) 배포가 10년 넘게 (2011) 되지 않아 [해당 설정을 끄는 API를 사용할 수 없음](https://github.com/fcitx/fcitx5-hangul/issues/12#issuecomment-2341205900)
+- 해결: 원하는 설정을 적용 후 `libhangul`을 수동으로 빌드하여 적용
+
+### 환경 설정
+
+```sh
+git clone https://github.com/libhangul/libhangul
+cd libhangul
+
+sudo dnf install gcc make gettext gettext-devel libtool libtoolize aclocal autoconf expat-devel
+```
+
+### 원하는 설정 적용
+
+- `ㄱㄱ` 누르면 `ㄲ` 되는 현상 비활성화: 최신 git 환경에서 빌드 시 [기본적으로 비활성화되어있음](https://github.com/libhangul/libhangul/commit/1b438ae53333c7186544ecd79add5ea175a63d8d#diff-b52a01722c6deec9de955a307286b6014e2882497dc05be1f61af32129ed1c44R857)
+- `ㄱㅅ` 누르면 `ㄳ` 되는 현상 비활성화: `HANGUL_IC_OPTION_NON_CHOSEONG_COMBI` 기본값을 `false`로 변경
+
+```diff
+diff --git a/hangul/hangulinputcontext.c b/hangul/hangulinputcontext.c
+index ee43f5e..bdd3ad0 100644
+--- a/hangul/hangulinputcontext.c
++++ b/hangul/hangulinputcontext.c
+@@ -1511,7 +1511,7 @@ hangul_ic_new(const char* keyboard)
+ 
+     hic->option_auto_reorder = false;
+     hic->option_combi_on_double_stroke = false;
+-    hic->option_non_choseong_combi = true;
++    hic->option_non_choseong_combi = false;
+ 
+     hangul_ic_set_output_mode(hic, HANGUL_OUTPUT_SYLLABLE);
+     hangul_ic_select_keyboard(hic, keyboard);
+```
+
+내려받은 저장소에 해당 변경사항을 적용
+
+## 빌드 및 설치
+
+```sh
+make -j $(nproc)
+sudo make install
+sudo ldconfig
+```
+
+다음과 같이 나오면 성공:
+
+```sh
+ldconfig -p | grep libhangul
+        libhangul.so.1 (libc6,x86-64) => /usr/local/lib/libhangul.so.1
+        libhangul.so.1 (libc6,x86-64) => /lib64/libhangul.so.1
+        libhangul.so (libc6,x86-64) => /usr/local/lib/libhangul.so
+```
+
+만일 `/usr/local/lib`같은 곳에 `libhangul`이 설치되어 `ldconfig`가 읽지 못한다면 해당 경로를 ldconfig에 추가후 위 동작을 반복:
+
+```sh
+echo '/usr/local/lib' | sudo tee -a /etc/ld.so.conf.d/usr_local_lib.conf
+sudo ldconfig
+```
+
+직접 빌드한 `libhangul.so`가 `ldconfig`에 반영된 것을 확인 후 로그아웃-로그인하여 `fcitx5-hangul`에 적용
+
+
+## File: posts/etc/hm-session-vars.md
+
+---
+date: 2024-06-19
+title: Home Manager로 fish shell 환경 변수 업데이트
+---
+
+## 개요
+
+[Home Manager](https://github.com/nix-community/home-manager)에서 환경 변수를 업데이트하기 위해 `home.sessionVariables`를 수정해도 환경 변수가 업데이트 되지 않음
+
+## 해결 방법
+
+### [`home.sessionVariables`](https://mynixos.com/home-manager/option/home.sessionVariables) 은 [로그아웃 후 다시 로그인해야만 변경사항이 적용됨](https://discourse.nixos.org/t/home-manager-doesnt-seem-to-recognize-sessionvariables/8488/26)
+
+> Environment variables to always set _at login_.
+
+1. `home.sessionVariables` 수정
+2. `home-manager switch` 실행
+3. 로그아웃 후 다시 로그인
+
+### 셸 시작시마다 환경 변수를 업데이트
+
+`programs.fish.shellInit`에서 직접 `set -gx`로 환경 변수 업데이트
+
+- 선택 사유: 빈번히 환경 변수를 업데이트해야 하는데 로그아웃 후 로그인을 반복하기 번거로움
+
+#### 의사 코드
+
+```nix
+let
+  env = with xdg; {
+    IDRIS2_PREFIX = "${XDG_DATA_HOME}/idris2";
+    PACK_DIR = "${XDG_DATA_HOME}/pack";
+    # ...
+  };
+  sessionVariables = builtins.concatStringsSep "\n" 
+    (map (k: "set -gx ${k} ${env.${k}}") (builtins.attrNames env));
+in
+{
+  # ...
+  programs = {
+    fish = {
+      enable = true;
+      shellInit = ''
+        ${sessionVariables}
+        # ...
+      ''
+      # ...
+    };
+  };
+}
+```
+
+#### 실행 결과
+
+```
+$ head -12 $HOME/.config/fish/config.fish
+# ~/.config/fish/config.fish: DO NOT EDIT -- this file has been generated
+# automatically by home-manager.
+
+# Only execute this file once per shell.
+set -q __fish_home_manager_config_sourced; and exit
+set -g __fish_home_manager_config_sourced 1
+
+source /nix/store/lkjzs012wpynhf3x2hnmcrm1im24ilcf-hm-session-vars.fish
+
+set -gx ANDROID_HOME /home/scarf/.local/share/android
+set -gx ASDF_CONFIG_FILE /home/scarf/.config/asdf/asdfrc
+set -gx ASDF_DATA_DIR /home/scarf/.local/share/asdf
+```
+
+## 참고 자료
+
+- https://chatgpt.com/share/929ff744-e3f4-4ffd-9cb9-049ec3cb28d9
+
+
+## File: posts/etc/nvidia_suspend.md
+
+---
+date: 2025-08-10
+title: 냉혹한 리눅스 Nvidia 절전 모드의 세계
+description: Nvidia가 설치된 환경에서 절전 모드 전환시 생기는 다양한 문제와 해결 방법
+---
+
+### 환경
+
+- Fedora 42 (Kinoite)
+- KDE Plasma 6.4.3
+- **Nvidia 575.64.05**
+
+## 절전 모드시 화면 해상도가 작게 줄어듬
+
+- 원인: 불명
+- 해결: HDMI/DP2 케이블 뽑았다 다시 꽂기
+
+## 절전 모드시 블루투스가 동작하지 않음
+
+- 현상: `bluetoothctl`을 켜려고 해도 `No default controller available` 발생
+- 해결: `btusb` 모듈을 언로드하고 다시 로드
+
+```sh
+sudo modprobe -r btusb
+sleep 1
+sudo service bluetooth restart
+sleep 1
+sudo modprobe btusb
+```
+
+참고: <https://askubuntu.com/questions/1387234/bluetooth-only-works-after-reloading-module-btusb>
+
+
+## File: posts/kde/kde5-lockscreen.md
+
+---
+date: 2024-03-05
+title: KDE 5 잠금화면 흔들림 제거
+oldUrl: /etc/kde-lockscreen.html
+---
+
+<video controls loop src="https://github.com/scarf005/blog/assets/54838975/16c977be-1a6b-4f3b-b243-763f6b0f158d"></video>
+
+## 개요
+
+KDE 5 잠금화면에서 비밀번호가 틀리면 입력창이 좌우로 요동침
+
+<video controls loop src="https://github.com/scarf005/blog/assets/54838975/f6f2526e-32ae-46a3-ada0-25534b30cd20"></video>
+
+## 해결 방법
+
+### 애니메이션 속도 조절
+
+![image](https://github.com/scarf005/blog/assets/54838975/a539d1a6-4d4d-43d6-af6f-8dbd0b43bcc3)
+
+- 애니메이션 속도를 `즉시`로 변경
+- 장점: 가장 간단함
+- 단점: 다른 애니메이션을 사용 불가
+
+### 시스템 테마 수정
+
+- `org.breeze.desktop` 대상으로 [애니메이션 제거](#테마에서-애니메이션-제거)만 진행
+- 장점: 간단함
+- 단점: 전역 설정을 수정해야 함
+
+### 사용자 테마 생성
+
+- 장점: 전역 설정을 수정하지 않음
+- 단점: 복잡하고 중복된 디렉터리들을 다수 복사해야 함
+
+## 해결
+
+### [기존 테마 복사](https://userbase.kde.org/Plasma/Create_a_Global_Theme_Package#How_to_create_your_own_Look_and_Feel_package)
+
+```sh
+$ mkdir -p ~/.local/share/plasma/look-and-feel/
+$ cd ~/.local/share/plasma/look-and-feel/
+
+$ cp -R /usr/share/plasma/look-and-feel/org.kde.breeze.desktop/ ./org.scarf.breeze.desktop
+$ cp -R /usr/share/plasma/look-and-feel/org.kde.breezetwilight.desktop/ ./org.scarf.breezetwilight.desktop
+```
+
+### 테마에서 애니메이션 제거
+
+```sh
+$ rm -r scarf.breeze.desktop/contents/animation
+$ rm -r scarf.breezetwilight.desktop/contents/animation
+```
+
+```diff
+diff --git a/org.scarf.breeze.desktop/contents/lockscreen/LockScreenUi.qml b/org.scarf.breeze.desktop/contents/lockscreen/LockScreenUi.qml
+index c39cdb6..c23a95b 100644
+--- a/org.scarf.breeze.desktop/contents/lockscreen/LockScreenUi.qml
++++ b/org.scarf.breeze.desktop/contents/lockscreen/LockScreenUi.qml
+@@ -16,7 +16,6 @@ import org.kde.plasma.workspace.components 2.0 as PW
+
+ import org.kde.plasma.private.sessions 2.0
+ import "../components"
+-import "../components/animation"
+
+ PlasmaCore.ColorScope {
+
+@@ -37,7 +36,6 @@ PlasmaCore.ColorScope {
+             root.notification += i18nd("plasma_lookandfeel_org.kde.lookandfeel","Unlocking failed");
+             graceLockTimer.restart();
+             notificationRemoveTimer.restart();
+-            rejectPasswordAnimation.start();
+             lockScreenUi.hadPrompt = false;
+         }
+
+@@ -108,11 +106,6 @@ PlasmaCore.ColorScope {
+         visible: false
+     }
+
+-    RejectPasswordAnimation {
+-        id: rejectPasswordAnimation
+-        target: mainBlock
+-    }
+-
+     MouseArea {
+         id: lockScreenRoot
+```
+
+### `breezetwilight`에 `contents/lockscreen` 복사
+
+```sh
+$ cp -R org.scarf.breeze.desktop/contents/lockscreen/ org.scarf.breezetwilight.desktop/contents/lockscreen/
+$ cp -R org.scarf.breeze.desktop/contents/components/ org.scarf.breezetwilight.desktop/contents/components/
+$ cp -R org.scarf.breeze.desktop/contents/osd/ org.scarf.breezetwilight.desktop/contents/osd/
+```
+
+- `contents/defaults`에서 다른 테마의 `lockscreen` 지정이 불가능한 것으로 보임
+
+### QML 버전 업데이트
+
+```diff
+diff --git a/32c6e6e b/61f84b6
+index 32c6e6e..61f84b6 100644
+--- a/32c6e6e
++++ b/61f84b6
+@@ -141,5 +141,6 @@
+         "Version": "2.0",
+         "Website": "https://www.kde.org"
+     },
++    "X-Plasma-APIVersion": "2",
+     "X-Plasma-MainScript": "defaults"
+ }
+```
+
+- https://old.reddit.com/r/kde/comments/ylp820/how_to_debug_lock_screen_theme_qml/
+- https://invent.kde.org/plasma/kscreenlocker/-/merge_requests/59
+
+## 적용
+
+### 신규 테마 추가 여부 확인
+
+![전역 테마 - 시스템 설정](https://github.com/scarf005/blog/assets/54838975/802cd486-ec9c-4aac-8596-1dc2655f3b26)
+
+```sh
+$ lookandfeeltool --list
+org.scarf.breeze.desktop
+org.scarf.breezetwilight.desktop
+org.kde.breeze.desktop
+org.kde.breezedark.desktop
+org.kde.breezetwilight.desktop
+org.kubuntu.desktop
+```
+
+### 테스트
+
+```sh
+$ /usr/lib/x86_64-linux-gnu/libexec/kscreenlocker_greet --testing --theme=org.scarf.breezetwilight.desktop
+```
+
+<video controls loop src="https://github.com/scarf005/blog/assets/54838975/99f27ab9-985b-4687-a9aa-89c58fa52a61"></video>
+
+### 사용
+
+```sh
+$ lookandfeeltool --apply org.scarf.breezetwilight.desktop
+```
+
+## 참고
+
+- https://github.com/scarf005/breeze-static-lockscreen
+
+
+## File: posts/kde/kde6-lockscreen.md
+
+---
+date: 2025-01-27
+title: KDE 6 잠금화면 흔들림 제거
+---
+
+<video controls loop src="https://github.com/user-attachments/assets/b2eef35c-0dcc-4632-994f-361b48520d96"></video>
+
+## 개요
+
+KDE 6 잠금화면에서 비밀번호가 틀리면 입력창이 좌우로 요동침
+
+<video controls loop src="https://github.com/user-attachments/assets/70a7ceef-a26a-4e1d-9a70-724a66de253e"></video>
+
+### 환경
+
+- Fedora 41 (Kinoite)
+- KDE Plasma 6.2.5
+
+## 해결 방법
+
+- 로그인 화면의 경우: SDDM 테마를 복제 후 수정
+- 잠금 화면의 경우: 사용자 정의 Shell 패키지 설치 후 수정
+
+## 로그인 화면(`SDDM`)에서 로그인 실패 애니메이션 제거
+
+`Main.qml`에서 `rejectPasswordAnimation.start()` 제거
+
+```sh
+$ /bin/ls /usr/share/sddm/themes/01-breeze-fedora/
+Background.qml      Login.qml  Messages.sh        default-logo.svg  metadata.desktop  theme.conf
+KeyboardButton.qml  Main.qml   SessionButton.qml  faces             preview.png
+```
+
+```diff
+diff --git a/Main.qml b/Main.qml
+index f0e8bd4..8093944 100644
+--- a/Main.qml
++++ b/Main.qml
+@@ -506,7 +506,6 @@ Item {
+             footer.enabled = true
+             mainStack.enabled = true
+             userListComponent.userList.opacity = 1
+-            rejectPasswordAnimation.start()
+         }
+         function onLoginSucceeded() {
+             //note SDDM will kill the greeter at some random point after this
+```
+
+### 참고
+
+- [kinoite에서 SDDM 수정 내용 적용](./kinoite-sddm.md)
+
+## 잠금 화면에서 로그인 실패 애니메이션 제거
+
+### 사용자 정의 Shell 패키지 설치
+
+```sh
+$ kpackagetool6 --install /usr/share/plasma/shells/org.kde.plasma.desktop/
+/var/home/scarf/.local/share/kpackage/generic/org.kde.plasma.desktop/을(를) 성공적으로 설치했습니다
+$ cd /var/home/scarf/.local/share/kpackage/generic/org.kde.plasma.desktop/
+```
+
+설치한 테마로 이동해 다음 파일 수정:
+
+```diff
+diff --git a/contents/lockscreen/LockScreenUi.qml b/contents/lockscreen/LockScreenUi.qml
+index 2bcecd7..1f5da10 100644
+--- a/contents/lockscreen/LockScreenUi.qml
++++ b/contents/lockscreen/LockScreenUi.qml
+@@ -49,7 +49,6 @@ Item {
+             lockScreenUi.handleMessage(msg);
+             graceLockTimer.restart();
+             notificationRemoveTimer.restart();
+-            rejectPasswordAnimation.start();
+         }
+ 
+         function onSucceeded() {
+```
+
+### 사용자 정의 Shell 패키지로 업그레이드
+
+```sh
+kpackagetool6 --type Plasma/Shell --upgrade /var/home/scarf/.local/share/kpackage/generic/org.kde.plasma.desktop/
+파일에서 패키지 업그레이드 중: /var/home/scarf/.local/share/kpackage/generic/org.kde.plasma.desktop/
+/var/home/scarf/.local/share/plasma/shells/org.kde.plasma.desktop/을(를) 업그레이드했습니다
+```
+
+### 테스트
+
+```sh
+$ /usr/libexec/kscreenlocker_greet --testing --shell=/var/home/scarf/.local/share/plasma/shells/org.kde.plasma.desktop/
+```
+
+<video controls loop src="https://github.com/user-attachments/assets/73505896-6ed1-445b-a311-05581ba071e9"></video>
+
+### 참고
+
+- [KDE 5](./kde5-lockscreen.md)
+- https://invent.kde.org/plasma/kscreenlocker/-/merge_requests/232
+- https://man.archlinux.org/man/kpackagetool6.1.en
+
+
+## File: posts/kde/kinoite-sddm.md
+
+---
+date: 2025-01-27
+title: KDE kinoite에서 로그인 화면(SDDM) 배경사진 변경
+---
+
+## 개요
+
+![Image](https://github.com/user-attachments/assets/4547f6c4-bc74-4fab-b4db-dada503f4cf8)
+
+1. 로그인 화면(`SDDM`)에서 배경사진을 변경하여도 적용되지 않음
+2. 이는 [Kinoite](https://fedoraproject.org/atomic-desktops/kinoite/)가 불변 (immutable) OS이어서 `SDDM` 설정이 저장되는 `/usr/share/sddm` 경로 수정이 불가하기 때문
+
+## 해결책
+
+[사용자가 제어 가능한 경로에 `/usr/share/sddm`를 마운트](https://discussion.fedoraproject.org/t/another-way-to-customize-sddm-under-kinoite/37773)
+
+```sh
+$ CUSTOM_PATH=/var
+$ sudo cp -r /usr/share/sddm $CUSTOM_PATH
+#       src               target        fstype options dump fsck
+$ echo "$CUSTOM_PATH/sddm /usr/share/sddm none rbind 0 0" | sudo tee -a /etc/fstab
+```
+
+종료 후 재시작하여 변경사항 적용
+
+
+## File: posts/scarf005.en.md
+
+---
+lang: en
+title: About
+tags:
+    - meta
+---
+
+<img
+  width=200
+  height=200
+  loading="lazy"
+  alt="Profile picture"
+  src="https://avatars.githubusercontent.com/u/54838975"
+/>
+
+## Projects
+
+- <https://github.com/cataclysmbnteam/Cataclysm-BN>
+- <https://github.com/daangn/stackgraph>
+- <https://github.com/scarf005/aoc-scala>
+- <https://github.com/scarf005/Marisa>
+- <https://github.com/jiphyeonjeon-42>
+
+### Contact
+
+- <https://github.com/scarf005>
+- <mailto:greenscarf005@gmail.com>
+
+
+## File: posts/scarf005.md
+
+---
+lang: ko
+title: 소개
+tags:
+    - meta
+---
+
+<img
+  width=200
+  height=200
+  loading="lazy"
+  alt="계정 프로필 이미지"
+  src="https://avatars.githubusercontent.com/u/54838975"
+/>
+
+## 프로젝트
+
+- <https://github.com/cataclysmbnteam/Cataclysm-BN>
+- <https://github.com/daangn/stackgraph>
+- <https://github.com/scarf005/aoc-scala>
+- <https://github.com/scarf005/Marisa>
+- <https://github.com/jiphyeonjeon-42>
+
+### 연락처
+
+- <https://github.com/scarf005>
+- <mailto:greenscarf005@gmail.com>
+
+
+## File: posts/www/css.md
+
+---
+date: 2024-01-21
+title: CSS만 가지고 링크 옆에 아이콘 넣기
+---
+
+- 이거는 <a href="https://github.com/cataclysmbnteam/Cataclysm-BN/pull/4141">PR</a>
+- 이거는 <a href="https://github.com/cataclysmbnteam/Cataclysm-BN/issues/3989" data-meta="cataclysmbnteam/Cataclysm-BN">이슈</a>
+
+## Before
+
+<https://github.com/cataclysmbnteam/Cataclysm-BN/issues/3989>
+
+## After
+
+<a href="https://github.com/cataclysmbnteam/Cataclysm-BN/issues/3989" data-meta="cataclysmbnteam/Cataclysm-BN#3989">
+supress warning for lua</a>
+
+
+## File: posts/www/relay-devtools.md
+
+---
+date: 2024-02-01
+title: firefox에서 Relay Devtools 사용
+---
+
+## 개요
+
+1. 파이어폭스에서 [Relay Devtools](https://relay.dev/docs/debugging/relay-devtools/) 확장 프로그램이 [지원되지 않음](https://github.com/relayjs/relay-devtools/issues/39)
+2. [README 설명을 따라 firefox용 확장 프로그램](https://github.com/relayjs/relay-devtools?tab=readme-ov-file#from-source)을 직접 빌드시 다양한 오류 발생
+
+## 해결
+
+### node 21에서 node-gyp 오류
+
+- 원인: 노후화된 `fsevents` 패키지 빌드 실패
+- 해결: node 18 사용 (`nvm use 18`)
+
+### yarn v4에서 중복 workspaces명 오류
+
+- 원인: v1과 v4 workspace 구조 차이
+- 해결: yarn v1 사용 (`yarn set version classic`)
+
+### 빌드 시 `error:0308010C:digital envelope routines::unsupported` 오류
+
+- 원인: [webpack@v4에서 노후화된 OpenSSL사용](https://github.com/webpack/webpack/issues/14532#issuecomment-947012063)
+- 해결: `NODE_OPTIONS=--openssl-legacy-provider` 환경 변수 추가
+
+### `shells/firefox/build/RelayDevTools.zip` 확장 프로그램 설치 실패
+
+- 원인: [인증 정책으로 인해 미인증 확장 프로그램 설치 불가](https://support.mozilla.org/ko/kb/add-on-signing-in-firefox?as=u&utm_source=inproduct)
+- 해결: 동일 문서의 [서명 되지 않은 부가 기능을 사용하기 위한 옵션은 어떤것이 있나요? (고급 사용자용)](https://support.mozilla.org/ko/kb/add-on-signing-in-firefox?as=u&utm_source=inproduct#w_seomyeong-doeji-anheun-buga-gineungeul-sayonghagi-wihan-obsyeoneun-eoddeongeosi-issnayo-gogeub-sayongjayong) 항목 참고
+  1. firefox developer edition 설치
+  2. `about:config` 주소로 접근
+  3. `xpinstall.signatures.required`을 `false`로 설정해 미인증 확장 프로그램 허용
+

@@ -10,8 +10,8 @@ declare global {
 	}
 }
 
-export default ({ title, description, children, url }: Lume.Data) => (
-	<html lang="ko">
+export default ({ title, description, children, url, lang, alternates }: Lume.Data) => (
+	<html lang={lang ?? "ko"}>
 		<head>
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,8 +22,7 @@ export default ({ title, description, children, url }: Lume.Data) => (
 			<meta property="og:description" content={description ?? title} />
 			<meta name="description" content={description ?? title} />
 
-			<meta lang="ko" />
-			<meta property="og:locale" content="ko" />
+			<meta property="og:locale" content={lang ?? "ko"} />
 
 			<meta name="theme-color" content="#000000" />
 
@@ -41,12 +40,13 @@ export default ({ title, description, children, url }: Lume.Data) => (
 			)}
 		</head>
 		<body>
-			<Nav href={url} />
+			<Nav href={url} lang={lang} />
 			<hr />
 			{children}
-			<Footer>
+			<Footer lang={lang} alternates={alternates}>
 				{isNakedCssDay(new Date()) ? <NakedCSS /> : undefined}
 			</Footer>
+			<script type="module" src="/assets/lang-select.js"></script>
 			<script type="module" src="/assets/flamethrower/flamethrower.js"></script>
 			<script type="module" src="/assets/clipboard.js"></script>
 		</body>

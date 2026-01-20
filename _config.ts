@@ -3,6 +3,7 @@ import lume from "lume/mod.ts"
 import relativeUrls from "lume/plugins/relative_urls.ts"
 import resolveUrls from "lume/plugins/resolve_urls.ts"
 import codeHighlight from "lume/plugins/code_highlight.ts"
+import multilanguage from "lume/plugins/multilanguage.ts"
 
 import jsx from "lume/plugins/jsx.ts"
 import mdx from "lume/plugins/mdx.ts"
@@ -14,6 +15,7 @@ import rehypeAutolinkHeadings from "https://esm.sh/rehype-autolink-headings@7.1.
 import { link } from "./markdown_cjk.ts"
 import { copyButton } from "./copy_button.ts"
 import { isNakedCssDay } from "./_components/naked_css.tsx"
+import { autoId } from "./auto_id.ts"
 
 const mdOption = {
 	rehypePlugins: [rehypeSlug, rehypeAutolinkHeadings],
@@ -25,7 +27,7 @@ const site = lume({ prettyUrls: false, watcher: { ignore: [".metals", ".git"] } 
 site
 	.copy([".css"])
 	.copy("assets")
-	.ignore("./README.md")
+	.ignore("./README.md", "AGENTS.md")
 	.data("layout", "_includes/post.tsx")
 
 site
@@ -39,6 +41,11 @@ site
 	.use(resolveUrls())
 	.use(redirects())
 	.use(relativeUrls())
+	.use(autoId({ languages: ["ko", "en", "ja"] }))
+	.use(multilanguage({
+		languages: ["ko", "en", "ja"],
+		defaultLanguage: "ko",
+	}))
 
 if (!isNakedCssDay(new Date())) {
 	site.use(copyButton())

@@ -1,5 +1,6 @@
 ---
-title: 소개
+lang: ja
+title: 紹介
 tags:
     - meta
 ---
@@ -8,11 +9,11 @@ tags:
   width=200
   height=200
   loading="lazy"
-  alt="계정 프로필 이미지"
+  alt="アカウントプロフィール画像"
   src="https://avatars.githubusercontent.com/u/54838975"
 />
 
-## 프로젝트
+## プロジェクト
 
 - <https://github.com/cataclysmbnteam/Cataclysm-BN>
 - <https://github.com/daangn/stackgraph>
@@ -20,7 +21,7 @@ tags:
 - <https://github.com/scarf005/Marisa>
 - <https://github.com/jiphyeonjeon-42>
 
-### 연락처
+### 連絡先
 
 - <https://github.com/scarf005>
 - <mailto:greenscarf005@gmail.com>
