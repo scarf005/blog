@@ -2,7 +2,7 @@
 lang: en
 title: About
 tags:
-  - meta
+    - meta
 ---
 
 <img
