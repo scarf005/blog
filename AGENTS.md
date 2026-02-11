@@ -1,5 +1,5 @@
-## I18n
+# Agent Guideline
 
-auto-translate edited files.
+## Typescript
 
-`냉혹한 {A}의 세계` -> `The {A} *Experience*` (EN), `闇が深い{A}の世界` (JA)
+- double quotes, no semicolons, use arrow functions, prefer FP
