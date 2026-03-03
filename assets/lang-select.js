@@ -24,17 +24,22 @@ const getStoredLang = () => {
 }
 
 const getBrowserLang = () => {
-	const preferred = navigator.languages?.length ? navigator.languages : [navigator.language]
-	const match = preferred
+	const candidates = navigator.languages?.filter(Boolean)
+		? navigator.languages.filter(Boolean)
+		: navigator.language
+			? [navigator.language]
+			: []
+	const match = candidates
 		.map((lang) => lang.toLowerCase().split("-")[0])
 		.find((lang) => SUPPORTED_LANGS.includes(lang))
-	return match ?? DEFAULT_LANG
+	return match
 }
 
 const maybeRedirectByLang = () => {
 	const currentLang = getCurrentLang()
 	const stored = getStoredLang()
 	const preferred = stored ?? getBrowserLang()
+	if (!preferred) return
 	if (preferred === currentLang) return
 	if (!isInitialLanguageRedirect()) return
 
