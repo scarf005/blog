@@ -1,6 +1,15 @@
 import { Footer, Nav } from "~/_components/mod.ts"
 import { isNakedCssDay, NakedCSS } from "../_components/naked_css.tsx"
 
+const getIndexBaseHref = (url?: string) => {
+	const current = url ?? "/"
+	if (current.endsWith(".html")) {
+		return current.slice(0, current.lastIndexOf("/") + 1)
+	}
+
+	return current.endsWith("/") ? current : `${current}/`
+}
+
 declare global {
 	namespace Lume {
 		interface Data {
@@ -10,11 +19,12 @@ declare global {
 	}
 }
 
-export default ({ title, description, children, url, lang, alternates }: Lume.Data) => (
+export default ({ title, description, children, url, lang, alternates, id }: Lume.Data) => (
 	<html lang={lang ?? "ko"}>
 		<head>
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			{typeof id === "string" && id.startsWith("index") ? <base href={getIndexBaseHref(url)} /> : undefined}
 
 			<title>{title ?? url}</title>
 			<meta property="og:title" content={title} />
