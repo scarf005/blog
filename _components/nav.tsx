@@ -1,7 +1,6 @@
 import { getStrings } from "~/_data.ts"
 
-const toLocalizedPath = (path: string, lang: string) =>
-	lang === "ko" ? path : `/${lang}${path}`
+const toLocalizedPath = (path: string, lang: string) => lang === "ko" ? path : `/${lang}${path}`
 
 type Props = {
 	href?: string
@@ -22,8 +21,16 @@ export const Nav = ({ href, lang = "ko" }: Props) => {
 
 	return (
 		<nav>
-			<a title={strings.nav.home} href={toLocalizedPath("/index.html", lang)} data-no-icon>/home</a>
-			<a title={strings.nav.about} href={toLocalizedPath("/scarf005.html", lang)} data-no-icon>/scarf</a>
+			<a title={strings.nav.home} href={toLocalizedPath("/index.html", lang)} data-no-icon>
+				/home
+			</a>
+			<a
+				title={strings.nav.about}
+				href={toLocalizedPath("/scarf005.html", lang)}
+				data-no-icon
+			>
+				/scarf
+			</a>
 			{links}
 			{last}
 		</nav>

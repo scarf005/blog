@@ -24,7 +24,9 @@ export default ({ title, description, children, url, lang, alternates, id }: Lum
 		<head>
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
-			{typeof id === "string" && id.startsWith("index") ? <base href={getIndexBaseHref(url)} /> : undefined}
+			{typeof id === "string" && id.startsWith("index")
+				? <base href={getIndexBaseHref(url)} />
+				: undefined}
 
 			<title>{title ?? url}</title>
 			<meta property="og:title" content={title} />

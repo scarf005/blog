@@ -27,8 +27,8 @@ const getBrowserLang = () => {
 	const candidates = navigator.languages?.filter(Boolean)
 		? navigator.languages.filter(Boolean)
 		: navigator.language
-			? [navigator.language]
-			: []
+		? [navigator.language]
+		: []
 	const match = candidates
 		.map((lang) => lang.toLowerCase().split("-")[0])
 		.find((lang) => SUPPORTED_LANGS.includes(lang))
